@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Horticulture Quiz - Learn Plants!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #276749;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: #f0fff4;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .category-btn.active {
+            background: #48bb78;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .quiz-area {
+            padding: 30px;
+        }
+        
+        .question-card {
+            background: #f0fff4;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .question-emoji {
+            font-size: 5rem;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .question-hint {
+            font-size: 1rem;
+            color: #718096;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option-btn {
+            padding: 20px;
+            font-size: 1.2rem;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .option-btn:hover {
+            border-color: #48bb78;
+            background: #f0fff4;
+            transform: scale(1.02);
+        }
+        
+        .option-btn.correct {
+            border-color: #48bb78;
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .option-btn.incorrect {
+            border-color: #f56565;
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+            display: block;
+        }
+        
+        .next-btn, .new-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .next-btn:hover, .new-btn:hover {
+            background: #38a169;
+            transform: scale(1.05);
+        }
+        
+        .score {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #718096;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .score-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #48bb78;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #48bb78;
+            transition: width 0.3s;
+        }
+        
+        .explanation {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Horticulture Quiz</h1>
+            <p>Learn about plants and gardening!</p>
+        </div>
+        
+        <div class="category-selector">
+            <button class="category-btn active" onclick="setCategory('plants')">🌿 Plants</button>
+            <button class="category-btn" onclick="setCategory('vegetables')">🥬 Vegetables</button>
+            <button class="category-btn" onclick="setCategory('flowers')">🌸 Flowers</button>
+            <button class="category-btn" onclick="setCategory('gardening')">🪴 Gardening</button>
+        </div>
+        
+        <div class="quiz-area">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-emoji" id="questionEmoji">🌻</div>
+                <div class="question-text" id="questionText">What plant is this?</div>
+                <div class="question-hint" id="questionHint">Select the correct answer!</div>
+            </div>
+            
+            <div class="options" id="options"></div>
+            
+            <div class="explanation" id="explanation"></div>
+            
+            <div class="feedback" id="feedback"></div>
+            
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next Question ➡️</button>
+            
+            <div class="score">
+                <div>Score</div>
+                <div class="score-number" id="scoreNumber">0</div>
+                <div id="scoreText">Correct: 0 | Total: 0</div>
+            </div>
+            
+            <button class="new-btn" onclick="newQuestion()">🔄 New Question</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = 'plants';
+        let score = { correct: 0, total: 0 };
+        let currentQuestion = {};
+        let answered = false;
+        
+        const questions = {
+            plants: [
+                { emoji: "🌿", question: "What is this plant?", options: ["Basil", "Mint", "Coriander", "Rosemary"], correct: 0, explanation: "🌿 Basil is a fragrant herb used in cooking, especially in Italian cuisine!" },
+                { emoji: "🌵", question: "What type of plant is this?", options: ["Cactus", "Succulent", "Fern", "Moss"], correct: 0, explanation: "🌵 Cacti are desert plants that store water in their stems!" },
+                { emoji: "🎋", question: "What plant is this?", options: ["Bamboo", "Sugar Cane", "Corn", "Reed"], correct: 0, explanation: "🎋 Bamboo is the fastest growing plant in the world!" },
+                { emoji: "🌴", question: "What is this called?", options: ["Palm Tree", "Coconut Tree", "Banana Tree", "Pine Tree"], correct: 0, explanation: "🌴 Palm trees grow in tropical climates and produce coconuts!" },
+                { emoji: "🍃", question: "What is this leaf?", options: ["Mint Leaf", "Basil Leaf", "Spinach", "Lettuce"], correct: 0, explanation: "🍃 Mint leaves have a refreshing smell and taste!" },
+                { emoji: "🌲", question: "What tree is this?", options: ["Pine Tree", "Oak Tree", "Maple Tree", "Birch Tree"], correct: 0, explanation: "🌲 Pine trees have needle-like leaves and produce cones!" },
+                { emoji: "🪴", question: "What is this?", options: ["Houseplant", "Succulent", "Fern", "Orchid"], correct: 0, explanation: "🪴 Houseplants help clean the air inside our homes!" },
+                { emoji: "🌱", question: "What is this?", options: ["Seedling", "Sprout", "Sapling", "Cutting"], correct: 1, explanation: "🌱 A sprout is a young plant that just emerged from the soil!" }
+            ],
+            vegetables: [
+                { emoji: "🥕", question: "What vegetable is this?", options: ["Carrot", "Parsnip", "Radish", "Turnip"], correct: 0, explanation: "🥕 Carrots are rich in vitamin A and good for your eyes!" },
+                { emoji: "🥬", question: "What is this green vegetable?", options: ["Cabbage", "Lettuce", "Spinach", "Kale"], correct: 1, explanation: "🥬 Lettuce is commonly used in salads!" },
+                { emoji: "🍅", question: "What is this?", options: ["Tomato", "Red Bell Pepper", "Chili", "Apple"], correct: 0, explanation: "🍅 Tomatoes are technically a fruit, not a vegetable!" },
+                { emoji: "🥒", question: "What vegetable is this?", options: ["Cucumber", "Zucchini", "Gourd", "Melon"], correct: 0, explanation: "🥒 Cucumbers are 96% water - very refreshing!" },
+                { emoji: "🌽", question: "What is this?", options: ["Corn", "Wheat", "Rice", "Barley"], correct: 0, explanation: "🌽 Corn is a grain that grows on a cob!" },
+                { emoji: "🧅", question: "What vegetable is this?", options: ["Onion", "Garlic", "Leek", "Shallot"], correct: 0, explanation: "🧅 Onions make us cry when we cut them!" },
+                { emoji: "🥔", question: "What is this?", options: ["Potato", "Sweet Potato", "Yam", "Cassava"], correct: 0, explanation: "🥔 Potatoes grow underground and are a staple food!" },
+                { emoji: "🧄", question: "What is this?", options: ["Garlic", "Onion", "Shallot", "Leek"], correct: 0, explanation: "🧄 Garlic has strong smell and is used in many cuisines!" }
+            ],
+            flowers: [
+                { emoji: "🌻", question: "What flower is this?", options: ["Sunflower", "Daisy", "Marigold", "Zinnia"], correct: 0, explanation: "🌻 Sunflowers follow the sun across the sky!" },
+                { emoji: "🌹", question: "What is the flower of love?", options: ["Rose", "Tulip", "Orchid", "Lily"], correct: 0, explanation: "🌹 Roses come in many colors and symbolize love!" },
+                { emoji: "🌷", question: "What spring flower is this?", options: ["Tulip", "Daffodil", "Hyacinth", "Iris"], correct: 0, explanation: "🌷 Tulips bloom in spring and come in many colors!" },
+                { emoji: "🌸", question: "What flower is this?", options: ["Cherry Blossom", "Peach Blossom", "Plum Blossom", "Pear Blossom"], correct: 0, explanation: "🌸 Cherry blossoms are famous in Japan!" },
+                { emoji: "🌺", question: "What tropical flower is this?", options: ["Hibiscus", "Frangipani", "Bird of Paradise", "Orchid"], correct: 0, explanation: "🌺 Hibiscus flowers only last one day!" },
+                { emoji: "🌼", question: "What is this small flower?", options: ["Daisy", "Dandelion", "Cosmos", "Zinnia"], correct: 0, explanation: "🌼 Daisies symbolize innocence and purity!" },
+                { emoji: "🪷", question: "What sacred flower is this?", options: ["Lotus", "Water Lily", "Rose", "Jasmine"], correct: 0, explanation: "🪷 The lotus grows in muddy water but produces beautiful flowers!" },
+                { emoji: "💐", question: "What is this called?", options: ["Bouquet", "Arrangement", "Wreath", "Posy"], correct: 0, explanation: "💐 A bouquet is a bunch of flowers arranged together!" }
+            ],
+            gardening: [
+                { emoji: "🪴", question: "What do we call this?", options: ["Pot", "Planter", "Container", "Vase"], correct: 0, explanation: "🪴 Plants grow in pots both indoors and outdoors!" },
+                { emoji: "💧", question: "What do plants need most?", options: ["Water", "Sunlight", "Soil", "Air"], correct: 0, explanation: "💧 Water is essential for plants to survive and grow!" },
+                { emoji: "☀️", question: "What do plants need from the sun?", options: ["Light", "Heat", "Energy", "All of the above"], correct: 3, explanation: "☀️ Plants use sunlight to make food through photosynthesis!" },
+                { emoji: "🪥", question: "What tool is this?", options: ["Trowel", "Fork", "Spade", "Rake"], correct: 0, explanation: "🪥 A trowel is used for digging small holes in soil!" },
+                { emoji: "💩", question: "What helps plants grow big and strong?", options: ["Fertilizer", "Water", "Sunlight", "Soil"], correct: 0, explanation: "💩 Fertilizer provides nutrients that plants need!" },
+                { emoji: "🐛", question: "What is this in the garden?", options: ["Caterpillar", "Beetle", "Worm", "Snail"], correct: 2, explanation: "🐛 Worms help make soil healthy by breaking down organic matter!" },
+                { emoji: "🌧️", question: "What happens to plants after rain?", options: ["They grow", "They bloom", "They drink water", "All of the above"], correct: 3, explanation: "🌧️ Rain provides water that plants need to grow!" },
+                { emoji: "✂️", question: "What tool is used to trim plants?", options: ["Pruning Shears", "Scissors", "Knife", "Saw"], correct: 0, explanation: "✂️ Pruning shears are special scissors for cutting plants!" }
+            ]
+        };
+        
+        function setCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            newQuestion();
+        }
+        
+        function newQuestion() {
+            const categoryQuestions = questions[currentCategory];
+            currentQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
+            answered = false;
+            
+            document.getElementById('questionEmoji').textContent = currentQuestion.emoji;
+            document.getElementById('questionText').textContent = currentQuestion.question;
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('explanation').className = 'explanation';
+            document.getElementById('nextBtn').style.display = 'none';
+            
+            // Shuffle options
+            let options = [...currentQuestion.options];
+            // Store original indices for correct answer
+            let correctOption = options[0];
+            options = shuffleArray(options);
+            let correctIndex = options.indexOf(correctOption);
+            
+            // Create option buttons
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index, btn, correctIndex, optionsContainer);
+                optionsContainer.appendChild(btn);
+            });
+            
+            playSound('question');
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        function checkAnswer(selectedIndex, btn, correctIndex, container) {
+            if (answered) return;
+            answered = true;
+            
+            const buttons = container.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true);
+            
+            score.total++;
+            
+            if (selectedIndex === correctIndex) {
+                score.correct++;
+                btn.classList.add('correct');
+                document.getElementById('feedback').textContent = '🎉 Correct! Great job!';
+                document.getElementById('feedback').className = 'feedback correct';
+                playSound('correct');
+            } else {
+                btn.classList.add('incorrect');
+                buttons[correctIndex].classList.add('correct');
+                document.getElementById('feedback').textContent = '❌ Not quite!';
+                document.getElementById('feedback').className = 'feedback incorrect';
+                playSound('incorrect');
+            }
+            
+            // Show explanation
+            document.getElementById('explanation').textContent = currentQuestion.explanation;
+            document.getElementById('explanation').className = 'explanation show';
+            
+            // Update score
+            document.getElementById('scoreNumber').textContent = score.correct;
+            document.getElementById('scoreText').textContent = `Correct: ${score.correct} | Total: ${score.total}`;
+            
+            // Update progress
+            const progress = (score.correct / score.total) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+        
+        function nextQuestion() {
+            newQuestion();
+        }
+        
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (type === 'correct') {
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.4);
+                } else if (type === 'incorrect') {
+                    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(250, audioContext.currentTime + 0.15);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                } else {
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                }
+            } catch (e) {}
+        }
+        
+        // Initialize
+        newQuestion();
+    </script>
+</body>
+</html>
