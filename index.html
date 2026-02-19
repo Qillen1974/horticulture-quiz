@@ -262,16 +262,20 @@
         
         const questions = {
             tools: [
-                { emoji: "✂️", image: "images/secateurs.jpg", question: "What is this tool? (secateurs)", options: ["Secateurs/Pruners", "Hand Trowel", "Hand Fork", "Garden Rake"], correct: 0, explanation: "✂️ Secateurs (pruners) are used for cutting stems and branches!" },
-                { emoji: "🥄", image: "images/tools.jpg", question: "Match the tools with their functions:", options: ["Hand Trowel - digging", "Secateurs - cutting", "Hand Fork - loosening soil", "Watering Can - watering"], correct: 0, explanation: "Hand Trowel is for digging small holes!" },
-                { emoji: "🧤", question: "What are these?", options: ["Gardening Gloves", "Plastic Bags", "Apron", "Hat"], correct: 0, explanation: "🧤 Gardening gloves protect your hands!" },
-                { emoji: "🚿", question: "What is this used for?", options: ["Watering plants", "Mixing soil", "Measuring pH", "Spraying pesticides"], correct: 0, explanation: "🚿 A watering can is used to water plants!" },
-                { emoji: "🪣", question: "What is this container for?", options: ["Carrying water", "Storing seeds", "Fertilizer", "All of the above"], correct: 3, explanation: "🪣 Buckets are versatile!" },
-                { emoji: "📏", question: "What tool measures plant depth?", options: ["Ruler or measuring stick", "Thermometer", "pH meter", "Moisture meter"], correct: 0, explanation: "📏 A ruler helps measure planting depth!" },
-                { emoji: "🪴", question: "What is this?", options: ["Pot", "Tray", "Window box", "Hanging basket"], correct: 0, explanation: "🪴 A pot is for growing plants!" },
-                { emoji: "💨", question: "What is this tool?", options: ["Hand sprayer", "Watering can", "Hose", "Drip irrigation"], correct: 0, explanation: "💨 A spray bottle for misting!" },
-                { emoji: "🔪", question: "What is this used for?", options: ["Cutting rope and string", "Digging", "Watering", "Weeding"], correct: 0, explanation: "🔪 A knife is useful for cutting!" },
-                { emoji: "🔙", question: "What is the part labeled A?", options: ["Blade", "Handle", "Safety Lock", "Spring"], correct: 0, explanation: "A is the cutting blade!" }
+                { image: "images/tools.jpg", question: "What is tool #1?", options: ["Hand trowel", "Secateurs", "Hand fork", "Pungkis"], correct: 0, explanation: "Hand trowel - Use to dig, scoop, and smooth soil media!" },
+                { image: "images/tools.jpg", question: "What is tool #1's function?", options: ["Dig, scoop, smooth soil", "Cut stems/leaves", "Loosen soil, remove weeds", "Collect debris"], correct: 0, explanation: "Hand trowel is for digging, scooping, and smoothing soil!" },
+                { image: "images/tools.jpg", question: "What is tool #2?", options: ["Secateurs", "Hand trowel", "Hand fork", "Rake"], correct: 0, explanation: "Secateurs - pruning shears!" },
+                { image: "images/tools.jpg", question: "What is tool #2's function?", options: ["Cut stems, leaves, roots", "Dig soil", "Water plants", "Sweep leaves"], correct: 0, explanation: "Secateurs cut stems, leaves, and roots!" },
+                { image: "images/tools.jpg", question: "What is tool #3?", options: ["Hand fork", "Hand trowel", "Secateurs", "Pungkis"], correct: 0, explanation: "Hand fork!" },
+                { image: "images/tools.jpg", question: "What is tool #3's function?", options: ["Loosen soil, remove weeds", "Cut stems", "Carry things", "Water plants"], correct: 0, explanation: "Hand fork loosens soil and removes weeds!" },
+                { image: "images/tools.jpg", question: "What is tool #4?", options: ["Pungkis", "Wheelbarrow", "Rake", "Watering can"], correct: 0, explanation: "Pungkis - a basket/scoop!" },
+                { image: "images/tools.jpg", question: "What is tool #4's function?", options: ["Collect debris during weeding", "Carry soil", "Water plants", "Cut stems"], correct: 0, explanation: "Pungkis collects debris during weeding!" },
+                { image: "images/tools.jpg", question: "What is tool #5?", options: ["Rake", "Hand fork", "Wheelbarrow", "Watering can"], correct: 0, explanation: "Rake!" },
+                { image: "images/tools.jpg", question: "What is tool #5's function?", options: ["Sweep dried leaves and dirt", "Cut stems", "Water plants", "Dig soil"], correct: 0, explanation: "Rake sweeps dried leaves and dirt!" },
+                { image: "images/tools.jpg", question: "What is tool #6?", options: ["Watering can", "Wheelbarrow", "Pungkis", "Secateurs"], correct: 0, explanation: "Watering can!" },
+                { image: "images/tools.jpg", question: "What is tool #6's function?", options: ["Water plants", "Carry soil", "Cut stems", "Loosen soil"], correct: 0, explanation: "Watering can waters plants!" },
+                { image: "images/tools.jpg", question: "What is tool #7?", options: ["Wheel barrow", "Rake", "Pungkis", "Hand fork"], correct: 0, explanation: "Wheelbarrow!" },
+                { image: "images/tools.jpg", question: "What is tool #7's function?", options: ["Carry soil, plants, debris", "Water plants", "Cut stems", "Sweep leaves"], correct: 0, explanation: "Wheelbarrow carries soil, plants, and debris!" }
             ],
             propagation: [
                 { emoji: "✂️", question: "What propagation method is this?", options: ["Stem Cutting", "Layering", "Division", "Seeds"], correct: 0, explanation: "✂️ Stem cutting involves cutting a stem and planting it!" },
@@ -286,16 +290,15 @@
                 { emoji: "🌡️", question: "Best temperature for rooting?", options: ["20-25°C", "0°C", "40°C", "10°C"], correct: 0, explanation: "🌡️ 20-25°C is best!" }
             ],
             media: [
-                { emoji: "🏖️", image: "images/soil.jpg", question: "Match the growing media:", options: ["Sand - drainage", "Top Soil - base", "Cocopeat - water retention", "Perlite - aeration"], correct: 0, explanation: "🏖️ Sand improves drainage!" },
-                { emoji: "🟫", question: "What is '1 part top soil'?", options: ["Provides nutrients", "Just filler", "For drainage", "To weigh down pots"], correct: 0, explanation: "🟫 Top soil provides nutrients!" },
-                { emoji: "🥥", question: "What is coconut coir?", options: ["Coco peat - holds water", "Type of fertilizer", "Sand substitute", "Compost"], correct: 0, explanation: "🥥 Coco peat holds water!" },
-                { emoji: "🍂", question: "What is compost?", options: ["Decayed organic matter", "Sand type", "Chemical fertilizer", "Clay"], correct: 0, explanation: "🍂 Compost adds nutrients!" },
-                { emoji: "⚖️", question: "What does 'well-draining' mean?", options: ["Water flows through easily", "Holds lots of water", "Very heavy soil", "No water needed"], correct: 0, explanation: "⚖️ Water flows through easily!" },
-                { emoji: "🪨", question: "Why add perlite?", options: ["Improves drainage", "Adds nutrients", "Makes soil heavier", "Changes pH"], correct: 0, explanation: "🪨 Perlite improves drainage!" },
-                { emoji: "🐛", question: "What does organic matter do?", options: ["Adds nutrients", "Makes drainage worse", "Attracts pests", "Nothing"], correct: 0, explanation: "🐛 Adds nutrients!" },
-                { emoji: "💦", question: "Good soil mix?", options: ["Well-draining", "100% clay", "100% sand", "Only compost"], correct: 0, explanation: "💦 Well-draining is best!" },
-                { emoji: "📊", question: "Why test soil pH?", options: ["Check acidity", "Measure water", "Count worms", "Weigh soil"], correct: 0, explanation: "📊 pH affects nutrient absorption!" },
-                { emoji: "🥚", question: "Example soil mix ratio?", options: ["3 sand : 1 top soil", "10 sand : 1 soil", "1 sand : 10 soil", "Only perlite"], correct: 0, explanation: "🥚 3:1 is common!" }
+                { image: "images/soil.jpg", question: "What is the media #1?", options: ["Sand", "Top soil", "Cocopeat", "Perlite"], correct: 0, explanation: "Sand - improves drainage!" },
+                { image: "images/soil.jpg", question: "What is the media #2?", options: ["Top soil", "Sand", "Cocopeat", "Perlite"], correct: 0, explanation: "Top soil - provides nutrients!" },
+                { image: "images/soil.jpg", question: "What is the media #3?", options: ["Cocopeat", "Perlite", "Vermiculite", "Sand"], correct: 0, explanation: "Cocopeat - holds water!" },
+                { image: "images/soil.jpg", question: "What is the media #4?", options: ["Perlite", "Vermiculite", "Sand", "Top soil"], correct: 0, explanation: "Perlite - improves drainage!" },
+                { image: "images/soil.jpg", question: "What is the media #5?", options: ["Vermiculite", "Perlite", "Cocopeat", "Sand"], correct: 0, explanation: "Vermiculite - holds water and nutrients!" },
+                { image: "images/soil.jpg", question: "Match: Sand", options: ["Improves drainage", "Holds water", "Adds nutrients", "Holds moisture"], correct: 0, explanation: "Sand improves drainage!" },
+                { image: "images/soil.jpg", question: "Match: Cocopeat", options: ["Holds water", "Improves drainage", "Lightweight", "Adds nutrients"], correct: 0, explanation: "Cocopeat holds water!" },
+                { image: "images/soil.jpg", question: "Match: Perlite", options: ["Improves aeration/drainage", "Holds water", "Adds nitrogen", "Makes soil heavy"], correct: 0, explanation: "Perlite improves aeration!" },
+                { image: "images/soil.jpg", question: "Good soil mix ratio?", options: ["3 sand : 1 top soil", "10 sand : 1 soil", "1 sand : 10 soil", "Only perlite"], correct: 0, explanation: "3:1 is common!" }
             ]
         };
         
