@@ -83,6 +83,13 @@
             margin-bottom: 15px;
         }
         
+        .question-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
         .question-text {
             font-size: 1.4rem;
             color: #2d3748;
@@ -225,6 +232,7 @@
         
         <div class="quiz-area">
             <div class="question-card">
+                <img class="question-image" id="questionImage" style="display:none" alt="Question image">
                 <div class="question-emoji" id="questionEmoji">✂️</div>
                 <div class="question-text" id="questionText">What tool is this?</div>
                 <div class="question-hint" id="questionHint">Select the correct answer!</div>
@@ -254,40 +262,40 @@
         
         const questions = {
             tools: [
-                { emoji: "✂️", question: "What is this tool used for?", options: ["Cutting stems and branches", "Digging holes", "Watering plants", "Measuring soil"], correct: 0, explanation: "✂️ Pruning shears (secateurs) are used for cutting stems and branches neatly!" },
-                { emoji: "🥄", question: "What is this tool?", options: ["Trowel", "Fork", "Rake", "Shovel"], correct: 0, explanation: "🥄 A trowel is a small hand tool for digging, planting, and moving soil!" },
-                { emoji: "🔱", question: "What garden tool is this?", options: ["Garden Fork", "Rake", "Hoe", "Spade"], correct: 0, explanation: "🔱 A garden fork is used for loosening soil and lifting plants!" },
-                { emoji: "🧤", question: "What are these?", options: ["Gardening Gloves", "Plastic Bags", "Apron", "Hat"], correct: 0, explanation: "🧤 Gardening gloves protect your hands while working with soil and plants!" },
-                { emoji: "🚿", question: "What is this used for?", options: ["Watering plants", "Mixing soil", "Measuring pH", "Spraying pesticides"], correct: 0, explanation: "🚿 A watering can is used to gently water plants!" },
-                { emoji: "🪣", question: "What is this container for?", options: ["Carrying water", "Storing seeds", "Fertilizer", "All of the above"], correct: 3, explanation: "🪣 Buckets are versatile - carrying water, mixing soil, storing supplies!" },
-                { emoji: "📏", question: "What tool measures plant depth?", options: ["Ruler or measuring stick", "Thermometer", "pH meter", "Moisture meter"], correct: 0, explanation: "📏 A ruler or stick helps measure planting depth correctly!" },
-                { emoji: "🪴", question: "What is this?", options: ["Pot", "Tray", "Window box", "Hanging basket"], correct: 0, explanation: "🪴 A pot is a container for growing plants!" },
-                { emoji: "💨", question: "What is this tool?", options: ["Hand sprayer", "Watering can", "Hose", "Drip irrigation"], correct: 0, explanation: "💨 A spray bottle creates fine mist for misting cuttings!" },
-                { emoji: "🔪", question: "What is this used for?", options: ["Cutting rope and string", "Digging", "Watering", "Weeding"], correct: 0, explanation: "🔪 A knife is useful for cutting rope, opening bags, and trimming!" }
+                { emoji: "✂️", image: "images/secateurs.jpg", question: "What is this tool? (secateurs)", options: ["Secateurs/Pruners", "Hand Trowel", "Hand Fork", "Garden Rake"], correct: 0, explanation: "✂️ Secateurs (pruners) are used for cutting stems and branches!" },
+                { emoji: "🥄", image: "images/tools.jpg", question: "Match the tools with their functions:", options: ["Hand Trowel - digging", "Secateurs - cutting", "Hand Fork - loosening soil", "Watering Can - watering"], correct: 0, explanation: "Hand Trowel is for digging small holes!" },
+                { emoji: "🧤", question: "What are these?", options: ["Gardening Gloves", "Plastic Bags", "Apron", "Hat"], correct: 0, explanation: "🧤 Gardening gloves protect your hands!" },
+                { emoji: "🚿", question: "What is this used for?", options: ["Watering plants", "Mixing soil", "Measuring pH", "Spraying pesticides"], correct: 0, explanation: "🚿 A watering can is used to water plants!" },
+                { emoji: "🪣", question: "What is this container for?", options: ["Carrying water", "Storing seeds", "Fertilizer", "All of the above"], correct: 3, explanation: "🪣 Buckets are versatile!" },
+                { emoji: "📏", question: "What tool measures plant depth?", options: ["Ruler or measuring stick", "Thermometer", "pH meter", "Moisture meter"], correct: 0, explanation: "📏 A ruler helps measure planting depth!" },
+                { emoji: "🪴", question: "What is this?", options: ["Pot", "Tray", "Window box", "Hanging basket"], correct: 0, explanation: "🪴 A pot is for growing plants!" },
+                { emoji: "💨", question: "What is this tool?", options: ["Hand sprayer", "Watering can", "Hose", "Drip irrigation"], correct: 0, explanation: "💨 A spray bottle for misting!" },
+                { emoji: "🔪", question: "What is this used for?", options: ["Cutting rope and string", "Digging", "Watering", "Weeding"], correct: 0, explanation: "🔪 A knife is useful for cutting!" },
+                { emoji: "🔙", question: "What is the part labeled A?", options: ["Blade", "Handle", "Safety Lock", "Spring"], correct: 0, explanation: "A is the cutting blade!" }
             ],
             propagation: [
-                { emoji: "✂️", question: "What propagation method is this?", options: ["Stem Cutting", "Layering", "Division", "Seeds"], correct: 0, explanation: "✂️ Stem cutting involves cutting a piece of stem and planting it to grow roots!" },
-                { emoji: "🌱", question: "What is this propagation method?", options: ["Layering", "Cutting", "Grafting", "Division"], correct: 0, explanation: "🌱 Layering - bending a branch to the ground and covering part with soil to root!" },
-                { emoji: "➗", question: "What is this propagation method?", options: ["Division", "Cutting", "Layering", "Air layering"], correct: 0, explanation: "➗ Division - splitting a mature plant into smaller parts!" },
-                { emoji: "🌰", question: "What is this propagation method?", options: ["Seeds", "Cutting", "Division", "Layering"], correct: 0, explanation: "🌰 Growing from seeds - the natural way plants reproduce!" },
-                { emoji: "🔗", question: "What is this method?", options: ["Air Layering", "Ground Layering", "Cutting", "Grafting"], correct: 0, explanation: "🔗 Air layering - making roots on a branch while still attached to the plant!" },
-                { emoji: "🌿", question: "When taking cuttings, what is important?", options: ["Cut below a node", "Cut any place", "Cut the leaves", "Cut at night"], correct: 0, explanation: "🌿 Always cut below a node (joint) - that's where roots will grow!" },
-                { emoji: "💧", question: "What do cuttings need to root?", options: ["Moisture and warmth", "Fertilizer", "Sunlight", "Insects"], correct: 0, explanation: "💧 Cuttings need consistently moist soil and warm temperatures to root!" },
-                { emoji: "🍃", question: "Should cuttings have leaves when rooting?", options: ["Yes, some leaves help", "No leaves at all", "Remove all leaves", "It doesn't matter"], correct: 0, explanation: "🍃 Some leaves help by making food through photosynthesis, but not too many!" },
-                { emoji: "🕐", question: "How long do cuttings usually take to root?", options: ["2-6 weeks", "1 day", "1 year", "Immediately"], correct: 0, explanation: "🕐 Most cuttings take 2-6 weeks to develop roots!" },
-                { emoji: "🌡️", question: "What temperature is best for rooting cuttings?", options: ["20-25°C", "0°C", "40°C", "10°C"], correct: 0, explanation: "🌡️ Warm temperatures (20-25°C) speed up rooting!" }
+                { emoji: "✂️", question: "What propagation method is this?", options: ["Stem Cutting", "Layering", "Division", "Seeds"], correct: 0, explanation: "✂️ Stem cutting involves cutting a stem and planting it!" },
+                { emoji: "🌱", question: "What is this propagation method?", options: ["Layering", "Cutting", "Grafting", "Division"], correct: 0, explanation: "🌱 Layering - bending branch to ground!" },
+                { emoji: "➗", question: "What is this propagation method?", options: ["Division", "Cutting", "Layering", "Air layering"], correct: 0, explanation: "➗ Division - splitting a plant!" },
+                { emoji: "🌰", question: "What is this propagation method?", options: ["Seeds", "Cutting", "Division", "Layering"], correct: 0, explanation: "🌰 Growing from seeds!" },
+                { emoji: "🔗", question: "What is this method?", options: ["Air Layering", "Ground Layering", "Cutting", "Grafting"], correct: 0, explanation: "🔗 Air layering - roots on branch!" },
+                { emoji: "🌿", question: "When taking cuttings, what is important?", options: ["Cut below a node", "Cut any place", "Cut the leaves", "Cut at night"], correct: 0, explanation: "🌿 Cut below a node for roots!" },
+                { emoji: "💧", question: "What do cuttings need to root?", options: ["Moisture and warmth", "Fertilizer", "Sunlight", "Insects"], correct: 0, explanation: "💧 Moisture and warmth!" },
+                { emoji: "🍃", question: "Should cuttings have leaves?", options: ["Yes, some leaves help", "No leaves at all", "Remove all leaves", "It doesn't matter"], correct: 0, explanation: "🍃 Some leaves help photosynthesis!" },
+                { emoji: "🕐", question: "How long do cuttings take to root?", options: ["2-6 weeks", "1 day", "1 year", "Immediately"], correct: 0, explanation: "🕐 2-6 weeks!" },
+                { emoji: "🌡️", question: "Best temperature for rooting?", options: ["20-25°C", "0°C", "40°C", "10°C"], correct: 0, explanation: "🌡️ 20-25°C is best!" }
             ],
             media: [
-                { emoji: "🏖️", question: "What is '3 parts sand' used for?", options: ["Improves drainage", "Adds nutrients", "Holds water", "Makes soil acidic"], correct: 0, explanation: "🏖️ Sand improves drainage and aeration in soil mix!" },
-                { emoji: "🟫", question: "What is '1 part top soil'?", options: ["Provides nutrients", "Just filler", "For drainage", "To weigh down pots"], correct: 0, explanation: "🟫 Top soil provides nutrients and structure for plants!" },
-                { emoji: "🥥", question: "What is coconut coir?", options: ["Coco peat - holds water", "Type of fertilizer", "Sand substitute", "Compost"], correct: 0, explanation: "🥥 Coconut coir (coco peat) holds water and is a good soil alternative!" },
-                { emoji: "🍂", question: "What is compost?", options: ["Decayed organic matter", "Sand type", "Chemical fertilizer", "Clay"], correct: 0, explanation: "🍂 Compost is decomposed organic material that adds nutrients!" },
-                { emoji: "⚖️", question: "What does 'well-draining' mean?", options: ["Water flows through easily", "Holds lots of water", "Very heavy soil", "No water needed"], correct: 0, explanation: "⚖️ Well-draining soil lets excess water flow out - prevents root rot!" },
-                { emoji: "🪨", question: "Why add perlite to soil?", options: ["Improves drainage and aeration", "Adds nutrients", "Makes soil heavier", "Changes pH"], correct: 0, explanation: "🪨 Perlite is white volcanic rock that improves drainage!" },
-                { emoji: "🐛", question: "What does organic matter do?", options: ["Adds nutrients", "Makes soil drainage worse", "Attracts pests", "Nothing"], correct: 0, explanation: "🐛 Organic matter like compost adds nutrients and improves soil!" },
-                { emoji: "💦", question: "What is a good soil mix for most plants?", options: ["Well-draining and fertile", "100% clay", "100% sand", "Only compost"], correct: 0, explanation: "💦 Most plants need well-draining soil that still holds some moisture!" },
-                { emoji: "📊", question: "Why test soil pH?", options: ["To check acidity for plant health", "To measure water", "To count worms", "To weigh soil"], correct: 0, explanation: "📊 pH affects how plants absorb nutrients - most like 6-7 pH!" },
-                { emoji: "🥚", question: "What is the ideal soil mix ratio example?", options: ["3 sand : 1 top soil : 1 compost", "10 sand : 1 soil", "1 sand : 10 soil", "Only perlite"], correct: 0, explanation: "🥚 A typical mix is 3 parts sand + 1 part top soil + 1 part compost!" }
+                { emoji: "🏖️", image: "images/soil.jpg", question: "Match the growing media:", options: ["Sand - drainage", "Top Soil - base", "Cocopeat - water retention", "Perlite - aeration"], correct: 0, explanation: "🏖️ Sand improves drainage!" },
+                { emoji: "🟫", question: "What is '1 part top soil'?", options: ["Provides nutrients", "Just filler", "For drainage", "To weigh down pots"], correct: 0, explanation: "🟫 Top soil provides nutrients!" },
+                { emoji: "🥥", question: "What is coconut coir?", options: ["Coco peat - holds water", "Type of fertilizer", "Sand substitute", "Compost"], correct: 0, explanation: "🥥 Coco peat holds water!" },
+                { emoji: "🍂", question: "What is compost?", options: ["Decayed organic matter", "Sand type", "Chemical fertilizer", "Clay"], correct: 0, explanation: "🍂 Compost adds nutrients!" },
+                { emoji: "⚖️", question: "What does 'well-draining' mean?", options: ["Water flows through easily", "Holds lots of water", "Very heavy soil", "No water needed"], correct: 0, explanation: "⚖️ Water flows through easily!" },
+                { emoji: "🪨", question: "Why add perlite?", options: ["Improves drainage", "Adds nutrients", "Makes soil heavier", "Changes pH"], correct: 0, explanation: "🪨 Perlite improves drainage!" },
+                { emoji: "🐛", question: "What does organic matter do?", options: ["Adds nutrients", "Makes drainage worse", "Attracts pests", "Nothing"], correct: 0, explanation: "🐛 Adds nutrients!" },
+                { emoji: "💦", question: "Good soil mix?", options: ["Well-draining", "100% clay", "100% sand", "Only compost"], correct: 0, explanation: "💦 Well-draining is best!" },
+                { emoji: "📊", question: "Why test soil pH?", options: ["Check acidity", "Measure water", "Count worms", "Weigh soil"], correct: 0, explanation: "📊 pH affects nutrient absorption!" },
+                { emoji: "🥚", question: "Example soil mix ratio?", options: ["3 sand : 1 top soil", "10 sand : 1 soil", "1 sand : 10 soil", "Only perlite"], correct: 0, explanation: "🥚 3:1 is common!" }
             ]
         };
         
@@ -305,7 +313,20 @@
             currentQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
             answered = false;
             
-            document.getElementById('questionEmoji').textContent = currentQuestion.emoji;
+            // Show emoji or image
+            const emojiEl = document.getElementById('questionEmoji');
+            const imageEl = document.getElementById('questionImage');
+            
+            if (currentQuestion.image) {
+                emojiEl.style.display = 'none';
+                imageEl.src = currentQuestion.image;
+                imageEl.style.display = 'block';
+            } else {
+                emojiEl.style.display = 'block';
+                emojiEl.textContent = currentQuestion.emoji;
+                imageEl.style.display = 'none';
+            }
+            
             document.getElementById('questionText').textContent = currentQuestion.question;
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('feedback').style.display = 'none';
