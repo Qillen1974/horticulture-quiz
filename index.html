@@ -10,14 +10,14 @@
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -26,19 +26,19 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             overflow: hidden;
         }
-        
+
         .header {
             background: #276749;
             color: white;
             padding: 20px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 2rem;
             margin-bottom: 5px;
         }
-        
+
         .category-selector {
             display: flex;
             justify-content: center;
@@ -47,7 +47,7 @@
             background: #f0fff4;
             flex-wrap: wrap;
         }
-        
+
         .category-btn {
             padding: 12px 20px;
             font-size: 1rem;
@@ -59,17 +59,17 @@
             background: #c6f6d5;
             color: #276749;
         }
-        
+
         .category-btn.active {
             background: #48bb78;
             color: white;
             transform: scale(1.05);
         }
-        
+
         .quiz-area {
             padding: 25px;
         }
-        
+
         .question-card {
             background: #f0fff4;
             border-radius: 15px;
@@ -77,43 +77,50 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        
+
         .question-emoji {
             font-size: 4rem;
             margin-bottom: 15px;
         }
-        
+
         .question-image {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 250px;
             border-radius: 10px;
             margin-bottom: 15px;
+            object-fit: contain;
         }
-        
+
         .question-text {
             font-size: 1.4rem;
             color: #2d3748;
             margin-bottom: 10px;
         }
-        
+
         .question-hint {
             font-size: 1rem;
             color: #718096;
         }
-        
+
         .options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin: 15px 0;
         }
-        
+
         @media (max-width: 600px) {
             .options {
                 grid-template-columns: 1fr;
             }
+            .match-container {
+                flex-direction: column;
+            }
+            .match-column {
+                width: 100% !important;
+            }
         }
-        
+
         .option-btn {
             padding: 15px;
             font-size: 1.1rem;
@@ -125,29 +132,29 @@
             font-weight: bold;
             color: #2d3748;
         }
-        
+
         .option-btn:hover {
             border-color: #48bb78;
             background: #f0fff4;
         }
-        
+
         .option-btn.correct {
             border-color: #48bb78;
             background: #c6f6d5;
             color: #22543d;
         }
-        
+
         .option-btn.incorrect {
             border-color: #f56565;
             background: #fed7d7;
             color: #742a2a;
         }
-        
+
         .option-btn:disabled {
             cursor: not-allowed;
             opacity: 0.7;
         }
-        
+
         .feedback {
             text-align: center;
             font-size: 1.2rem;
@@ -156,19 +163,19 @@
             border-radius: 10px;
             display: none;
         }
-        
+
         .feedback.correct {
             background: #c6f6d5;
             color: #22543d;
             display: block;
         }
-        
+
         .feedback.incorrect {
             background: #fed7d7;
             color: #742a2a;
             display: block;
         }
-        
+
         .next-btn {
             display: block;
             margin: 15px auto;
@@ -181,11 +188,11 @@
             cursor: pointer;
             font-weight: bold;
         }
-        
+
         .next-btn:hover {
             background: #38a169;
         }
-        
+
         .score {
             text-align: center;
             font-size: 1.1rem;
@@ -195,13 +202,13 @@
             border-radius: 10px;
             margin-top: 15px;
         }
-        
+
         .score-number {
             font-size: 1.8rem;
             font-weight: bold;
             color: #48bb78;
         }
-        
+
         .explanation {
             background: #ebf8ff;
             border-left: 4px solid #4299e1;
@@ -211,9 +218,95 @@
             display: none;
             font-size: 0.95rem;
         }
-        
+
         .explanation.show {
             display: block;
+        }
+
+        /* Match Tools styles */
+        .match-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .match-column {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .match-column h3 {
+            text-align: center;
+            color: #276749;
+            margin-bottom: 5px;
+        }
+
+        .match-item {
+            padding: 12px;
+            border: 3px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: bold;
+            color: #2d3748;
+            user-select: none;
+        }
+
+        .match-item:hover {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .match-item.selected {
+            border-color: #4299e1;
+            background: #ebf8ff;
+            transform: scale(1.03);
+        }
+
+        .match-item.matched {
+            border-color: #48bb78;
+            background: #c6f6d5;
+            cursor: default;
+            opacity: 0.8;
+        }
+
+        .match-item.wrong {
+            border-color: #f56565;
+            background: #fed7d7;
+            animation: shake 0.4s;
+        }
+
+        .match-item img {
+            max-width: 100%;
+            max-height: 80px;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .match-score {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #276749;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .match-round-info {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -223,34 +316,47 @@
             <h1>🌱 Horticulture Quiz</h1>
             <p>Learn about plants and gardening!</p>
         </div>
-        
+
         <div class="category-selector">
-            <button class="category-btn active" onclick="setCategory('tools')">🔧 Tools</button>
-            <button class="category-btn" onclick="setCategory('propagation')">🌿 Propagation</button>
-            <button class="category-btn" onclick="setCategory('media')">🪴 Soil Mix</button>
+            <button class="category-btn active" onclick="setCategory('tools', this)">🔧 Tools</button>
+            <button class="category-btn" onclick="setCategory('toolparts', this)">🔩 Tool Parts</button>
+            <button class="category-btn" onclick="setCategory('toolquality', this)">✅ Tool Quality</button>
+            <button class="category-btn" onclick="setCategory('match', this)">🔗 Match Tools</button>
+            <button class="category-btn" onclick="setCategory('propagation', this)">🌿 Propagation</button>
+            <button class="category-btn" onclick="setCategory('media', this)">🪴 Soil Mix</button>
         </div>
-        
-        <div class="quiz-area">
+
+        <!-- Standard quiz area -->
+        <div class="quiz-area" id="quizArea">
             <div class="question-card">
                 <img class="question-image" id="questionImage" style="display:none" alt="Question image">
                 <div class="question-emoji" id="questionEmoji">✂️</div>
                 <div class="question-text" id="questionText">What tool is this?</div>
                 <div class="question-hint" id="questionHint">Select the correct answer!</div>
             </div>
-            
+
             <div class="options" id="options"></div>
-            
+
             <div class="explanation" id="explanation"></div>
-            
+
             <div class="feedback" id="feedback"></div>
-            
+
             <button class="next-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next Question ➡️</button>
-            
+
             <div class="score">
                 <div>Score</div>
                 <div class="score-number" id="scoreNumber">0</div>
                 <div id="scoreText">Correct: 0 | Total: 0</div>
             </div>
+        </div>
+
+        <!-- Match Tools area -->
+        <div class="quiz-area" id="matchArea" style="display: none;">
+            <div class="match-round-info" id="matchRoundInfo">Round 1: Match each tool to its name</div>
+            <div class="match-container" id="matchContainer"></div>
+            <div class="match-score" id="matchScore"></div>
+            <button class="next-btn" id="matchNextBtn" onclick="startMatchRound2()" style="display: none;">Next: Match Functions ➡️</button>
+            <button class="next-btn" id="matchRestartBtn" onclick="startMatch()" style="display: none;">Play Again 🔄</button>
         </div>
     </div>
 
@@ -259,23 +365,56 @@
         let score = { correct: 0, total: 0 };
         let currentQuestion = {};
         let answered = false;
-        
+
+        // Match Tools state
+        let matchSelectedLeft = null;
+        let matchSelectedRight = null;
+        let matchPairs = [];
+        let matchMatched = 0;
+        let matchRound = 1;
+        let matchCorrect = 0;
+        let matchTotal = 0;
+
+        const toolData = [
+            { image: "images/IMG_9968.jpeg", name: "Hand Trowel", func: "Dig, scoop, and smooth soil media" },
+            { image: "images/IMG_9969.jpeg", name: "Secateurs", func: "Cut stems, leaves, and roots" },
+            { image: "images/IMG_9970.jpeg", name: "Hand Fork", func: "Loosen soil and remove weeds" },
+            { image: "images/IMG_9971.jpeg", name: "Pungkis", func: "Collect debris during weeding" },
+            { image: "images/IMG_9972.jpeg", name: "Rake", func: "Sweep dried leaves and dirt" },
+            { image: "images/IMG_9973.jpeg", name: "Watering Can", func: "Water plants" },
+            { image: "images/IMG_9974.jpeg", name: "Wheelbarrow", func: "Carry soil, plants, and debris" }
+        ];
+
         const questions = {
             tools: [
-                { image: "images/tools.jpg", question: "What is tool #1?", options: ["Hand trowel", "Secateurs", "Hand fork", "Pungkis"], correct: 0, explanation: "Hand trowel - Use to dig, scoop, and smooth soil media!" },
-                { image: "images/tools.jpg", question: "What is tool #1's function?", options: ["Dig, scoop, smooth soil", "Cut stems/leaves", "Loosen soil, remove weeds", "Collect debris"], correct: 0, explanation: "Hand trowel is for digging, scooping, and smoothing soil!" },
-                { image: "images/tools.jpg", question: "What is tool #2?", options: ["Secateurs", "Hand trowel", "Hand fork", "Rake"], correct: 0, explanation: "Secateurs - pruning shears!" },
-                { image: "images/tools.jpg", question: "What is tool #2's function?", options: ["Cut stems, leaves, roots", "Dig soil", "Water plants", "Sweep leaves"], correct: 0, explanation: "Secateurs cut stems, leaves, and roots!" },
-                { image: "images/tools.jpg", question: "What is tool #3?", options: ["Hand fork", "Hand trowel", "Secateurs", "Pungkis"], correct: 0, explanation: "Hand fork!" },
-                { image: "images/tools.jpg", question: "What is tool #3's function?", options: ["Loosen soil, remove weeds", "Cut stems", "Carry things", "Water plants"], correct: 0, explanation: "Hand fork loosens soil and removes weeds!" },
-                { image: "images/tools.jpg", question: "What is tool #4?", options: ["Pungkis", "Wheelbarrow", "Rake", "Watering can"], correct: 0, explanation: "Pungkis - a basket/scoop!" },
-                { image: "images/tools.jpg", question: "What is tool #4's function?", options: ["Collect debris during weeding", "Carry soil", "Water plants", "Cut stems"], correct: 0, explanation: "Pungkis collects debris during weeding!" },
-                { image: "images/tools.jpg", question: "What is tool #5?", options: ["Rake", "Hand fork", "Wheelbarrow", "Watering can"], correct: 0, explanation: "Rake!" },
-                { image: "images/tools.jpg", question: "What is tool #5's function?", options: ["Sweep dried leaves and dirt", "Cut stems", "Water plants", "Dig soil"], correct: 0, explanation: "Rake sweeps dried leaves and dirt!" },
-                { image: "images/tools.jpg", question: "What is tool #6?", options: ["Watering can", "Wheelbarrow", "Pungkis", "Secateurs"], correct: 0, explanation: "Watering can!" },
-                { image: "images/tools.jpg", question: "What is tool #6's function?", options: ["Water plants", "Carry soil", "Cut stems", "Loosen soil"], correct: 0, explanation: "Watering can waters plants!" },
-                { image: "images/tools.jpg", question: "What is tool #7?", options: ["Wheel barrow", "Rake", "Pungkis", "Hand fork"], correct: 0, explanation: "Wheelbarrow!" },
-                { image: "images/tools.jpg", question: "What is tool #7's function?", options: ["Carry soil, plants, debris", "Water plants", "Cut stems", "Sweep leaves"], correct: 0, explanation: "Wheelbarrow carries soil, plants, and debris!" }
+                { image: "images/IMG_9968.jpeg", question: "What tool is this?", options: ["Hand Trowel", "Secateurs", "Hand Fork", "Pungkis"], correct: 0, explanation: "Hand Trowel - used to dig, scoop, and smooth soil media!" },
+                { image: "images/IMG_9968.jpeg", question: "What is this tool's function?", options: ["Dig, scoop, smooth soil", "Cut stems/leaves", "Loosen soil, remove weeds", "Collect debris"], correct: 0, explanation: "The Hand Trowel is for digging, scooping, and smoothing soil!" },
+                { image: "images/IMG_9969.jpeg", question: "What tool is this?", options: ["Secateurs", "Hand Trowel", "Hand Fork", "Rake"], correct: 0, explanation: "Secateurs - pruning shears for cutting!" },
+                { image: "images/IMG_9969.jpeg", question: "What is this tool's function?", options: ["Cut stems, leaves, roots", "Dig soil", "Water plants", "Sweep leaves"], correct: 0, explanation: "Secateurs cut stems, leaves, and roots!" },
+                { image: "images/IMG_9970.jpeg", question: "What tool is this?", options: ["Hand Fork", "Hand Trowel", "Secateurs", "Pungkis"], correct: 0, explanation: "Hand Fork!" },
+                { image: "images/IMG_9970.jpeg", question: "What is this tool's function?", options: ["Loosen soil, remove weeds", "Cut stems", "Carry things", "Water plants"], correct: 0, explanation: "The Hand Fork loosens soil and removes weeds!" },
+                { image: "images/IMG_9971.jpeg", question: "What tool is this?", options: ["Pungkis", "Wheelbarrow", "Rake", "Watering Can"], correct: 0, explanation: "Pungkis - a basket/scoop for collecting debris!" },
+                { image: "images/IMG_9971.jpeg", question: "What is this tool's function?", options: ["Collect debris during weeding", "Carry soil", "Water plants", "Cut stems"], correct: 0, explanation: "Pungkis collects debris during weeding!" },
+                { image: "images/IMG_9972.jpeg", question: "What tool is this?", options: ["Rake", "Hand Fork", "Wheelbarrow", "Watering Can"], correct: 0, explanation: "Rake!" },
+                { image: "images/IMG_9972.jpeg", question: "What is this tool's function?", options: ["Sweep dried leaves and dirt", "Cut stems", "Water plants", "Dig soil"], correct: 0, explanation: "The Rake sweeps dried leaves and dirt!" },
+                { image: "images/IMG_9973.jpeg", question: "What tool is this?", options: ["Watering Can", "Wheelbarrow", "Pungkis", "Secateurs"], correct: 0, explanation: "Watering Can!" },
+                { image: "images/IMG_9973.jpeg", question: "What is this tool's function?", options: ["Water plants", "Carry soil", "Cut stems", "Loosen soil"], correct: 0, explanation: "The Watering Can is used to water plants!" },
+                { image: "images/IMG_9974.jpeg", question: "What tool is this?", options: ["Wheelbarrow", "Rake", "Pungkis", "Hand Fork"], correct: 0, explanation: "Wheelbarrow!" },
+                { image: "images/IMG_9974.jpeg", question: "What is this tool's function?", options: ["Carry soil, plants, debris", "Water plants", "Cut stems", "Sweep leaves"], correct: 0, explanation: "The Wheelbarrow carries soil, plants, and debris!" }
+            ],
+            toolparts: [
+                { image: "images/IMG_9958.jpeg", question: "What is Part A on the secateurs?", options: ["Blades", "Safety Lock Catch", "Handle", "Spring"], correct: 0, explanation: "Part A = Blades - the sharp cutting edges of the secateurs!" },
+                { image: "images/IMG_9958.jpeg", question: "What is Part B on the secateurs?", options: ["Safety Lock Catch", "Blades", "Handle", "Pivot Bolt"], correct: 0, explanation: "Part B = Safety Lock Catch - keeps the secateurs closed when not in use!" },
+                { image: "images/IMG_9958.jpeg", question: "What is Part C on the secateurs?", options: ["Handle", "Blades", "Safety Lock Catch", "Spring"], correct: 0, explanation: "Part C = Handle - where you grip the secateurs!" },
+                { image: "images/IMG_9958.jpeg", question: "Which part are the Blades?", options: ["Part A", "Part B", "Part C", "Part D"], correct: 0, explanation: "The Blades are labeled as Part A!" },
+                { image: "images/IMG_9958.jpeg", question: "Which part is the Safety Lock Catch?", options: ["Part B", "Part A", "Part C", "Part D"], correct: 0, explanation: "The Safety Lock Catch is labeled as Part B!" },
+                { image: "images/IMG_9958.jpeg", question: "Which part is the Handle?", options: ["Part C", "Part A", "Part B", "Part D"], correct: 0, explanation: "The Handle is labeled as Part C!" }
+            ],
+            toolquality: [
+                { image: "images/IMG_9964.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the secateur blade is rusty and worn, making it unsafe and ineffective!" },
+                { image: "images/IMG_9965.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - this hand trowel is new and in proper working order!" },
+                { image: "images/IMG_9966.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - these secateurs are in use and well-maintained!" },
+                { image: "images/IMG_9967.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the trowel handle is broken and detached, making it unusable!" }
             ],
             propagation: [
                 { emoji: "✂️", question: "What propagation method is this?", options: ["Stem Cutting", "Layering", "Division", "Seeds"], correct: 0, explanation: "✂️ Stem cutting involves cutting a stem and planting it!" },
@@ -300,25 +439,33 @@
                 { image: "images/media-worksheet.jpg", question: "Which media is best for aeration?", options: ["Perlite", "Sand", "Vermiculite", "Top Soil"], correct: 0, explanation: "Perlite improves aeration!" }
             ]
         };
-        
-        function setCategory(category) {
+
+        function setCategory(category, btnElement) {
             currentCategory = category;
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
-            newQuestion();
+            btnElement.classList.add('active');
+
+            if (category === 'match') {
+                document.getElementById('quizArea').style.display = 'none';
+                document.getElementById('matchArea').style.display = 'block';
+                startMatch();
+            } else {
+                document.getElementById('quizArea').style.display = 'block';
+                document.getElementById('matchArea').style.display = 'none';
+                newQuestion();
+            }
         }
-        
+
         function newQuestion() {
             const categoryQuestions = questions[currentCategory];
             currentQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
             answered = false;
-            
-            // Show emoji or image
+
             const emojiEl = document.getElementById('questionEmoji');
             const imageEl = document.getElementById('questionImage');
-            
+
             if (currentQuestion.image) {
                 emojiEl.style.display = 'none';
                 imageEl.src = currentQuestion.image;
@@ -328,22 +475,21 @@
                 emojiEl.textContent = currentQuestion.emoji;
                 imageEl.style.display = 'none';
             }
-            
+
             document.getElementById('questionText').textContent = currentQuestion.question;
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('feedback').style.display = 'none';
             document.getElementById('explanation').className = 'explanation';
             document.getElementById('nextBtn').style.display = 'none';
-            
-            // Shuffle options
+
             let options = [...currentQuestion.options];
             let correctOption = options[0];
             options = shuffleArray(options);
             let correctIndex = options.indexOf(correctOption);
-            
+
             const optionsContainer = document.getElementById('options');
             optionsContainer.innerHTML = '';
-            
+
             options.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -351,10 +497,10 @@
                 btn.onclick = () => checkAnswer(index, btn, correctIndex, optionsContainer);
                 optionsContainer.appendChild(btn);
             });
-            
+
             playSound('question');
         }
-        
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -362,16 +508,16 @@
             }
             return array;
         }
-        
+
         function checkAnswer(selectedIndex, btn, correctIndex, container) {
             if (answered) return;
             answered = true;
-            
+
             const buttons = container.querySelectorAll('.option-btn');
             buttons.forEach(b => b.disabled = true);
-            
+
             score.total++;
-            
+
             if (selectedIndex === correctIndex) {
                 score.correct++;
                 btn.classList.add('correct');
@@ -385,29 +531,172 @@
                 document.getElementById('feedback').className = 'feedback incorrect';
                 playSound('incorrect');
             }
-            
+
             document.getElementById('explanation').textContent = currentQuestion.explanation;
             document.getElementById('explanation').className = 'explanation show';
-            
+
             document.getElementById('scoreNumber').textContent = score.correct;
             document.getElementById('scoreText').textContent = `Correct: ${score.correct} | Total: ${score.total}`;
-            
+
             document.getElementById('nextBtn').style.display = 'block';
         }
-        
+
         function nextQuestion() {
             newQuestion();
         }
-        
+
+        // ========== Match Tools ==========
+
+        function startMatch() {
+            matchRound = 1;
+            matchCorrect = 0;
+            matchTotal = 0;
+            document.getElementById('matchNextBtn').style.display = 'none';
+            document.getElementById('matchRestartBtn').style.display = 'none';
+            buildMatchRound();
+        }
+
+        function buildMatchRound() {
+            matchSelectedLeft = null;
+            matchSelectedRight = null;
+            matchMatched = 0;
+
+            const container = document.getElementById('matchContainer');
+            container.innerHTML = '';
+
+            const isRound1 = matchRound === 1;
+            document.getElementById('matchRoundInfo').textContent = isRound1
+                ? 'Round 1: Match each tool to its name'
+                : 'Round 2: Match each tool to its function';
+
+            document.getElementById('matchScore').textContent = '';
+            document.getElementById('matchNextBtn').style.display = 'none';
+            document.getElementById('matchRestartBtn').style.display = 'none';
+
+            // Left column: tool images
+            const leftCol = document.createElement('div');
+            leftCol.className = 'match-column';
+            leftCol.innerHTML = '<h3>Tools</h3>';
+
+            // Right column: names or functions
+            const rightCol = document.createElement('div');
+            rightCol.className = 'match-column';
+            rightCol.innerHTML = isRound1 ? '<h3>Names</h3>' : '<h3>Functions</h3>';
+
+            // Create shuffled copies
+            const leftOrder = shuffleArray([...Array(toolData.length).keys()]);
+            const rightOrder = shuffleArray([...Array(toolData.length).keys()]);
+
+            // Build pairs tracking
+            matchPairs = toolData.map((t, i) => ({ index: i, matched: false }));
+
+            leftOrder.forEach(i => {
+                const item = document.createElement('div');
+                item.className = 'match-item';
+                item.dataset.index = i;
+                item.dataset.side = 'left';
+                item.innerHTML = `<img src="${toolData[i].image}" alt="Tool"><br><small>?</small>`;
+                item.onclick = () => selectMatchItem(item);
+                leftCol.appendChild(item);
+            });
+
+            rightOrder.forEach(i => {
+                const item = document.createElement('div');
+                item.className = 'match-item';
+                item.dataset.index = i;
+                item.dataset.side = 'right';
+                item.textContent = isRound1 ? toolData[i].name : toolData[i].func;
+                item.onclick = () => selectMatchItem(item);
+                rightCol.appendChild(item);
+            });
+
+            container.appendChild(leftCol);
+            container.appendChild(rightCol);
+        }
+
+        function selectMatchItem(item) {
+            if (item.classList.contains('matched')) return;
+
+            const side = item.dataset.side;
+
+            if (side === 'left') {
+                // Deselect previous left
+                if (matchSelectedLeft) matchSelectedLeft.classList.remove('selected');
+                matchSelectedLeft = item;
+                item.classList.add('selected');
+            } else {
+                // Deselect previous right
+                if (matchSelectedRight) matchSelectedRight.classList.remove('selected');
+                matchSelectedRight = item;
+                item.classList.add('selected');
+            }
+
+            // Check if both sides selected
+            if (matchSelectedLeft && matchSelectedRight) {
+                const leftIndex = parseInt(matchSelectedLeft.dataset.index);
+                const rightIndex = parseInt(matchSelectedRight.dataset.index);
+                matchTotal++;
+
+                if (leftIndex === rightIndex) {
+                    // Correct match
+                    matchCorrect++;
+                    matchSelectedLeft.classList.remove('selected');
+                    matchSelectedRight.classList.remove('selected');
+                    matchSelectedLeft.classList.add('matched');
+                    matchSelectedRight.classList.add('matched');
+                    // Show the name on the left item
+                    const label = matchSelectedLeft.querySelector('small');
+                    if (label) label.textContent = toolData[leftIndex].name;
+                    matchMatched++;
+                    playSound('correct');
+
+                    matchSelectedLeft = null;
+                    matchSelectedRight = null;
+
+                    // Check if all matched
+                    if (matchMatched === toolData.length) {
+                        document.getElementById('matchScore').textContent =
+                            `Round ${matchRound} complete! ${matchCorrect}/${matchTotal} correct`;
+                        if (matchRound === 1) {
+                            document.getElementById('matchNextBtn').style.display = 'block';
+                        } else {
+                            document.getElementById('matchScore').textContent +=
+                                ' — All done! Great work!';
+                            document.getElementById('matchRestartBtn').style.display = 'block';
+                        }
+                    }
+                } else {
+                    // Wrong match
+                    playSound('incorrect');
+                    matchSelectedLeft.classList.add('wrong');
+                    matchSelectedRight.classList.add('wrong');
+                    const left = matchSelectedLeft;
+                    const right = matchSelectedRight;
+                    setTimeout(() => {
+                        left.classList.remove('selected', 'wrong');
+                        right.classList.remove('selected', 'wrong');
+                    }, 500);
+                    matchSelectedLeft = null;
+                    matchSelectedRight = null;
+                }
+            }
+        }
+
+        function startMatchRound2() {
+            matchRound = 2;
+            document.getElementById('matchNextBtn').style.display = 'none';
+            buildMatchRound();
+        }
+
         function playSound(type) {
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 if (type === 'correct') {
                     oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
                     oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
@@ -430,7 +719,7 @@
                 }
             } catch (e) {}
         }
-        
+
         newQuestion();
     </script>
 </body>
