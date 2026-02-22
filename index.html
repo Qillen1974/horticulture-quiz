@@ -223,7 +223,7 @@
             display: block;
         }
 
-        /* Match Tools styles */
+        /* Match styles */
         .match-container {
             display: flex;
             gap: 20px;
@@ -324,6 +324,7 @@
             <button class="category-btn" onclick="setCategory('match', this)">🔗 Match Tools</button>
             <button class="category-btn" onclick="setCategory('propagation', this)">🌿 Propagation</button>
             <button class="category-btn" onclick="setCategory('media', this)">🪴 Soil Mix</button>
+            <button class="category-btn" onclick="setCategory('matchmedia', this)">🔗 Match Media</button>
         </div>
 
         <!-- Standard quiz area -->
@@ -350,13 +351,13 @@
             </div>
         </div>
 
-        <!-- Match Tools area -->
+        <!-- Match area (shared by Match Tools and Match Media) -->
         <div class="quiz-area" id="matchArea" style="display: none;">
             <div class="match-round-info" id="matchRoundInfo">Round 1: Match each tool to its name</div>
             <div class="match-container" id="matchContainer"></div>
             <div class="match-score" id="matchScore"></div>
-            <button class="next-btn" id="matchNextBtn" onclick="startMatchRound2()" style="display: none;">Next: Match Functions ➡️</button>
-            <button class="next-btn" id="matchRestartBtn" onclick="startMatch()" style="display: none;">Play Again 🔄</button>
+            <button class="next-btn" id="matchNextBtn" style="display: none;">Next Round ➡️</button>
+            <button class="next-btn" id="matchRestartBtn" style="display: none;">Play Again 🔄</button>
         </div>
     </div>
 
@@ -366,7 +367,7 @@
         let currentQuestion = {};
         let answered = false;
 
-        // Match Tools state
+        // Match state
         let matchSelectedLeft = null;
         let matchSelectedRight = null;
         let matchPairs = [];
@@ -374,47 +375,56 @@
         let matchRound = 1;
         let matchCorrect = 0;
         let matchTotal = 0;
+        let activeMatchType = 'tools'; // 'tools' or 'media'
 
         const toolData = [
-            { image: "images/IMG_9968.jpeg", name: "Hand Trowel", func: "Dig, scoop, and smooth soil media" },
-            { image: "images/IMG_9969.jpeg", name: "Secateurs", func: "Cut stems, leaves, and roots" },
-            { image: "images/IMG_9970.jpeg", name: "Hand Fork", func: "Loosen soil and remove weeds" },
-            { image: "images/IMG_9971.jpeg", name: "Pungkis", func: "Collect debris during weeding" },
-            { image: "images/IMG_9972.jpeg", name: "Rake", func: "Sweep dried leaves and dirt" },
-            { image: "images/IMG_9973.jpeg", name: "Watering Can", func: "Water plants" },
-            { image: "images/IMG_9974.jpeg", name: "Wheelbarrow", func: "Carry soil, plants, and debris" }
+            { image: "images/tools images/IMG_9968.jpeg", name: "Hand Trowel", func: "Dig, scoop, and smooth soil media" },
+            { image: "images/tools images/IMG_9969.jpeg", name: "Secateurs", func: "Cut stems, leaves, and roots" },
+            { image: "images/tools images/IMG_9970.jpeg", name: "Hand Fork", func: "Loosen soil and remove weeds" },
+            { image: "images/tools images/IMG_9971.jpeg", name: "Pungkis", func: "Collect debris during weeding" },
+            { image: "images/tools images/IMG_9972.jpeg", name: "Rake", func: "Sweep dried leaves and dirt" },
+            { image: "images/tools images/IMG_9973.jpeg", name: "Watering Can", func: "Water plants" },
+            { image: "images/tools images/IMG_9974.jpeg", name: "Wheelbarrow", func: "Carry soil, plants, and debris" }
+        ];
+
+        const mediaData = [
+            { image: "images/media images/IMG_9959.jpeg", name: "Sand", func: "Improves drainage" },
+            { image: "images/media images/IMG_9960.jpeg", name: "Top Soil", func: "Provides nutrients" },
+            { image: "images/media images/IMG_9961.jpeg", name: "Cocopeat", func: "Holds water" },
+            { image: "images/media images/IMG_9962.jpeg", name: "Perlite", func: "Aeration and drainage" },
+            { image: "images/media images/IMG_9963.jpeg", name: "Vermiculite", func: "Water and nutrient retention" }
         ];
 
         const questions = {
             tools: [
-                { image: "images/IMG_9968.jpeg", question: "What tool is this?", options: ["Hand Trowel", "Secateurs", "Hand Fork", "Pungkis"], correct: 0, explanation: "Hand Trowel - used to dig, scoop, and smooth soil media!" },
-                { image: "images/IMG_9968.jpeg", question: "What is this tool's function?", options: ["Dig, scoop, smooth soil", "Cut stems/leaves", "Loosen soil, remove weeds", "Collect debris"], correct: 0, explanation: "The Hand Trowel is for digging, scooping, and smoothing soil!" },
-                { image: "images/IMG_9969.jpeg", question: "What tool is this?", options: ["Secateurs", "Hand Trowel", "Hand Fork", "Rake"], correct: 0, explanation: "Secateurs - pruning shears for cutting!" },
-                { image: "images/IMG_9969.jpeg", question: "What is this tool's function?", options: ["Cut stems, leaves, roots", "Dig soil", "Water plants", "Sweep leaves"], correct: 0, explanation: "Secateurs cut stems, leaves, and roots!" },
-                { image: "images/IMG_9970.jpeg", question: "What tool is this?", options: ["Hand Fork", "Hand Trowel", "Secateurs", "Pungkis"], correct: 0, explanation: "Hand Fork!" },
-                { image: "images/IMG_9970.jpeg", question: "What is this tool's function?", options: ["Loosen soil, remove weeds", "Cut stems", "Carry things", "Water plants"], correct: 0, explanation: "The Hand Fork loosens soil and removes weeds!" },
-                { image: "images/IMG_9971.jpeg", question: "What tool is this?", options: ["Pungkis", "Wheelbarrow", "Rake", "Watering Can"], correct: 0, explanation: "Pungkis - a basket/scoop for collecting debris!" },
-                { image: "images/IMG_9971.jpeg", question: "What is this tool's function?", options: ["Collect debris during weeding", "Carry soil", "Water plants", "Cut stems"], correct: 0, explanation: "Pungkis collects debris during weeding!" },
-                { image: "images/IMG_9972.jpeg", question: "What tool is this?", options: ["Rake", "Hand Fork", "Wheelbarrow", "Watering Can"], correct: 0, explanation: "Rake!" },
-                { image: "images/IMG_9972.jpeg", question: "What is this tool's function?", options: ["Sweep dried leaves and dirt", "Cut stems", "Water plants", "Dig soil"], correct: 0, explanation: "The Rake sweeps dried leaves and dirt!" },
-                { image: "images/IMG_9973.jpeg", question: "What tool is this?", options: ["Watering Can", "Wheelbarrow", "Pungkis", "Secateurs"], correct: 0, explanation: "Watering Can!" },
-                { image: "images/IMG_9973.jpeg", question: "What is this tool's function?", options: ["Water plants", "Carry soil", "Cut stems", "Loosen soil"], correct: 0, explanation: "The Watering Can is used to water plants!" },
-                { image: "images/IMG_9974.jpeg", question: "What tool is this?", options: ["Wheelbarrow", "Rake", "Pungkis", "Hand Fork"], correct: 0, explanation: "Wheelbarrow!" },
-                { image: "images/IMG_9974.jpeg", question: "What is this tool's function?", options: ["Carry soil, plants, debris", "Water plants", "Cut stems", "Sweep leaves"], correct: 0, explanation: "The Wheelbarrow carries soil, plants, and debris!" }
+                { image: "images/tools images/IMG_9968.jpeg", question: "What tool is this?", options: ["Hand Trowel", "Secateurs", "Hand Fork", "Pungkis"], correct: 0, explanation: "Hand Trowel - used to dig, scoop, and smooth soil media!" },
+                { image: "images/tools images/IMG_9968.jpeg", question: "What is this tool's function?", options: ["Dig, scoop, smooth soil", "Cut stems/leaves", "Loosen soil, remove weeds", "Collect debris"], correct: 0, explanation: "The Hand Trowel is for digging, scooping, and smoothing soil!" },
+                { image: "images/tools images/IMG_9969.jpeg", question: "What tool is this?", options: ["Secateurs", "Hand Trowel", "Hand Fork", "Rake"], correct: 0, explanation: "Secateurs - pruning shears for cutting!" },
+                { image: "images/tools images/IMG_9969.jpeg", question: "What is this tool's function?", options: ["Cut stems, leaves, roots", "Dig soil", "Water plants", "Sweep leaves"], correct: 0, explanation: "Secateurs cut stems, leaves, and roots!" },
+                { image: "images/tools images/IMG_9970.jpeg", question: "What tool is this?", options: ["Hand Fork", "Hand Trowel", "Secateurs", "Pungkis"], correct: 0, explanation: "Hand Fork!" },
+                { image: "images/tools images/IMG_9970.jpeg", question: "What is this tool's function?", options: ["Loosen soil, remove weeds", "Cut stems", "Carry things", "Water plants"], correct: 0, explanation: "The Hand Fork loosens soil and removes weeds!" },
+                { image: "images/tools images/IMG_9971.jpeg", question: "What tool is this?", options: ["Pungkis", "Wheelbarrow", "Rake", "Watering Can"], correct: 0, explanation: "Pungkis - a basket/scoop for collecting debris!" },
+                { image: "images/tools images/IMG_9971.jpeg", question: "What is this tool's function?", options: ["Collect debris during weeding", "Carry soil", "Water plants", "Cut stems"], correct: 0, explanation: "Pungkis collects debris during weeding!" },
+                { image: "images/tools images/IMG_9972.jpeg", question: "What tool is this?", options: ["Rake", "Hand Fork", "Wheelbarrow", "Watering Can"], correct: 0, explanation: "Rake!" },
+                { image: "images/tools images/IMG_9972.jpeg", question: "What is this tool's function?", options: ["Sweep dried leaves and dirt", "Cut stems", "Water plants", "Dig soil"], correct: 0, explanation: "The Rake sweeps dried leaves and dirt!" },
+                { image: "images/tools images/IMG_9973.jpeg", question: "What tool is this?", options: ["Watering Can", "Wheelbarrow", "Pungkis", "Secateurs"], correct: 0, explanation: "Watering Can!" },
+                { image: "images/tools images/IMG_9973.jpeg", question: "What is this tool's function?", options: ["Water plants", "Carry soil", "Cut stems", "Loosen soil"], correct: 0, explanation: "The Watering Can is used to water plants!" },
+                { image: "images/tools images/IMG_9974.jpeg", question: "What tool is this?", options: ["Wheelbarrow", "Rake", "Pungkis", "Hand Fork"], correct: 0, explanation: "Wheelbarrow!" },
+                { image: "images/tools images/IMG_9974.jpeg", question: "What is this tool's function?", options: ["Carry soil, plants, debris", "Water plants", "Cut stems", "Sweep leaves"], correct: 0, explanation: "The Wheelbarrow carries soil, plants, and debris!" }
             ],
             toolparts: [
-                { image: "images/IMG_9958.jpeg", question: "What is Part A on the secateurs?", options: ["Blades", "Safety Lock Catch", "Handle", "Spring"], correct: 0, explanation: "Part A = Blades - the sharp cutting edges of the secateurs!" },
-                { image: "images/IMG_9958.jpeg", question: "What is Part B on the secateurs?", options: ["Safety Lock Catch", "Blades", "Handle", "Pivot Bolt"], correct: 0, explanation: "Part B = Safety Lock Catch - keeps the secateurs closed when not in use!" },
-                { image: "images/IMG_9958.jpeg", question: "What is Part C on the secateurs?", options: ["Handle", "Blades", "Safety Lock Catch", "Spring"], correct: 0, explanation: "Part C = Handle - where you grip the secateurs!" },
-                { image: "images/IMG_9958.jpeg", question: "Which part are the Blades?", options: ["Part A", "Part B", "Part C", "Part D"], correct: 0, explanation: "The Blades are labeled as Part A!" },
-                { image: "images/IMG_9958.jpeg", question: "Which part is the Safety Lock Catch?", options: ["Part B", "Part A", "Part C", "Part D"], correct: 0, explanation: "The Safety Lock Catch is labeled as Part B!" },
-                { image: "images/IMG_9958.jpeg", question: "Which part is the Handle?", options: ["Part C", "Part A", "Part B", "Part D"], correct: 0, explanation: "The Handle is labeled as Part C!" }
+                { image: "images/tools images/IMG_9958.jpeg", question: "What is Part A on the secateurs?", options: ["Blades", "Safety Lock Catch", "Handle", "Spring"], correct: 0, explanation: "Part A = Blades - the sharp cutting edges of the secateurs!" },
+                { image: "images/tools images/IMG_9958.jpeg", question: "What is Part B on the secateurs?", options: ["Safety Lock Catch", "Blades", "Handle", "Pivot Bolt"], correct: 0, explanation: "Part B = Safety Lock Catch - keeps the secateurs closed when not in use!" },
+                { image: "images/tools images/IMG_9958.jpeg", question: "What is Part C on the secateurs?", options: ["Handle", "Blades", "Safety Lock Catch", "Spring"], correct: 0, explanation: "Part C = Handle - where you grip the secateurs!" },
+                { image: "images/tools images/IMG_9958.jpeg", question: "Which part are the Blades?", options: ["Part A", "Part B", "Part C", "Part D"], correct: 0, explanation: "The Blades are labeled as Part A!" },
+                { image: "images/tools images/IMG_9958.jpeg", question: "Which part is the Safety Lock Catch?", options: ["Part B", "Part A", "Part C", "Part D"], correct: 0, explanation: "The Safety Lock Catch is labeled as Part B!" },
+                { image: "images/tools images/IMG_9958.jpeg", question: "Which part is the Handle?", options: ["Part C", "Part A", "Part B", "Part D"], correct: 0, explanation: "The Handle is labeled as Part C!" }
             ],
             toolquality: [
-                { image: "images/IMG_9964.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the secateur blade is rusty and worn, making it unsafe and ineffective!" },
-                { image: "images/IMG_9965.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - this hand trowel is new and in proper working order!" },
-                { image: "images/IMG_9966.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - these secateurs are in use and well-maintained!" },
-                { image: "images/IMG_9967.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the trowel handle is broken and detached, making it unusable!" }
+                { image: "images/tools images/IMG_9964.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the secateur blade is rusty and worn, making it unsafe and ineffective!" },
+                { image: "images/tools images/IMG_9965.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - this hand trowel is new and in proper working order!" },
+                { image: "images/tools images/IMG_9966.jpeg", question: "Is this tool in good or poor condition?", options: ["Good quality", "Poor quality"], correct: 0, explanation: "Good condition - these secateurs are in use and well-maintained!" },
+                { image: "images/tools images/IMG_9967.jpeg", question: "Is this tool in good or poor condition?", options: ["Poor quality", "Good quality"], correct: 0, explanation: "Poor condition - the trowel handle is broken and detached, making it unusable!" }
             ],
             propagation: [
                 { emoji: "✂️", question: "What propagation method is this?", options: ["Stem Cutting", "Layering", "Division", "Seeds"], correct: 0, explanation: "✂️ Stem cutting involves cutting a stem and planting it!" },
@@ -429,14 +439,16 @@
                 { emoji: "🌡️", question: "Best temperature for rooting?", options: ["20-25°C", "0°C", "40°C", "10°C"], correct: 0, explanation: "🌡️ 20-25°C is best!" }
             ],
             media: [
-                { image: "images/media-worksheet.jpg", question: "What is media #1 (Sand) function?", options: ["Improves drainage", "Holds water", "Adds nutrients", "Retains moisture"], correct: 0, explanation: "Sand improves drainage!" },
-                { image: "images/media-worksheet.jpg", question: "What is media #2 (Top Soil) function?", options: ["Provides nutrients", "Improves drainage", "Holds water", "Lightweight"], correct: 0, explanation: "Top soil provides nutrients!" },
-                { image: "images/media-worksheet.jpg", question: "What is media #3 (Cocopeat) function?", options: ["Holds water", "Improves drainage", "Adds nitrogen", "Makes soil heavy"], correct: 0, explanation: "Cocopeat holds water!" },
-                { image: "images/media-worksheet.jpg", question: "What is media #4 (Perlite) function?", options: ["Aeration and drainage", "Holds water", "Adds nutrients", "Keeps soil cool"], correct: 0, explanation: "Perlite improves aeration!" },
-                { image: "images/media-worksheet.jpg", question: "What is media #5 (Vermiculite) function?", options: ["Water and nutrient retention", "Improves drainage", "Makes soil light", "Kills bacteria"], correct: 0, explanation: "Vermiculite retains water and nutrients!" },
-                { image: "images/media-worksheet.jpg", question: "Which media improves drainage?", options: ["Sand", "Cocopeat", "Top Soil", "Vermiculite"], correct: 0, explanation: "Sand improves drainage!" },
-                { image: "images/media-worksheet.jpg", question: "Which media holds the most water?", options: ["Cocopeat", "Sand", "Perlite", "Top Soil"], correct: 0, explanation: "Cocopeat holds lots of water!" },
-                { image: "images/media-worksheet.jpg", question: "Which media is best for aeration?", options: ["Perlite", "Sand", "Vermiculite", "Top Soil"], correct: 0, explanation: "Perlite improves aeration!" }
+                { image: "images/media images/IMG_9959.jpeg", question: "What soil media is this?", options: ["Sand", "Top Soil", "Cocopeat", "Perlite"], correct: 0, explanation: "Sand - the grainy, light-colored media that improves drainage!" },
+                { image: "images/media images/IMG_9959.jpeg", question: "What is the function of Sand?", options: ["Improves drainage", "Holds water", "Adds nutrients", "Retains moisture"], correct: 0, explanation: "Sand improves drainage in the soil mix!" },
+                { image: "images/media images/IMG_9960.jpeg", question: "What soil media is this?", options: ["Top Soil", "Sand", "Cocopeat", "Vermiculite"], correct: 0, explanation: "Top Soil - the dark, nutrient-rich soil!" },
+                { image: "images/media images/IMG_9960.jpeg", question: "What is the function of Top Soil?", options: ["Provides nutrients", "Improves drainage", "Holds water", "Lightweight"], correct: 0, explanation: "Top Soil provides nutrients for plants!" },
+                { image: "images/media images/IMG_9961.jpeg", question: "What soil media is this?", options: ["Cocopeat", "Top Soil", "Vermiculite", "Sand"], correct: 0, explanation: "Cocopeat - the brown fibrous material made from coconut husks!" },
+                { image: "images/media images/IMG_9961.jpeg", question: "What is the function of Cocopeat?", options: ["Holds water", "Improves drainage", "Adds nitrogen", "Makes soil heavy"], correct: 0, explanation: "Cocopeat holds water and keeps the soil moist!" },
+                { image: "images/media images/IMG_9962.jpeg", question: "What soil media is this?", options: ["Perlite", "Vermiculite", "Sand", "Cocopeat"], correct: 0, explanation: "Perlite - the white, lightweight granules!" },
+                { image: "images/media images/IMG_9962.jpeg", question: "What is the function of Perlite?", options: ["Aeration and drainage", "Holds water", "Adds nutrients", "Keeps soil cool"], correct: 0, explanation: "Perlite improves aeration and drainage!" },
+                { image: "images/media images/IMG_9963.jpeg", question: "What soil media is this?", options: ["Vermiculite", "Perlite", "Sand", "Top Soil"], correct: 0, explanation: "Vermiculite - the golden, flaky material!" },
+                { image: "images/media images/IMG_9963.jpeg", question: "What is the function of Vermiculite?", options: ["Water and nutrient retention", "Improves drainage", "Makes soil light", "Kills bacteria"], correct: 0, explanation: "Vermiculite retains water and nutrients!" }
             ]
         };
 
@@ -447,9 +459,10 @@
             });
             btnElement.classList.add('active');
 
-            if (category === 'match') {
+            if (category === 'match' || category === 'matchmedia') {
                 document.getElementById('quizArea').style.display = 'none';
                 document.getElementById('matchArea').style.display = 'block';
+                activeMatchType = category === 'match' ? 'tools' : 'media';
                 startMatch();
             } else {
                 document.getElementById('quizArea').style.display = 'block';
@@ -545,14 +558,22 @@
             newQuestion();
         }
 
-        // ========== Match Tools ==========
+        // ========== Match (Tools & Media) ==========
+
+        function getActiveMatchData() {
+            return activeMatchType === 'tools' ? toolData : mediaData;
+        }
 
         function startMatch() {
             matchRound = 1;
             matchCorrect = 0;
             matchTotal = 0;
-            document.getElementById('matchNextBtn').style.display = 'none';
-            document.getElementById('matchRestartBtn').style.display = 'none';
+            const nextBtn = document.getElementById('matchNextBtn');
+            const restartBtn = document.getElementById('matchRestartBtn');
+            nextBtn.style.display = 'none';
+            restartBtn.style.display = 'none';
+            nextBtn.onclick = () => { matchRound = 2; nextBtn.style.display = 'none'; buildMatchRound(); };
+            restartBtn.onclick = () => startMatch();
             buildMatchRound();
         }
 
@@ -561,41 +582,39 @@
             matchSelectedRight = null;
             matchMatched = 0;
 
+            const data = getActiveMatchData();
             const container = document.getElementById('matchContainer');
             container.innerHTML = '';
 
+            const label = activeMatchType === 'tools' ? 'tool' : 'media';
             const isRound1 = matchRound === 1;
             document.getElementById('matchRoundInfo').textContent = isRound1
-                ? 'Round 1: Match each tool to its name'
-                : 'Round 2: Match each tool to its function';
+                ? `Round 1: Match each ${label} to its name`
+                : `Round 2: Match each ${label} to its function`;
 
             document.getElementById('matchScore').textContent = '';
             document.getElementById('matchNextBtn').style.display = 'none';
             document.getElementById('matchRestartBtn').style.display = 'none';
 
-            // Left column: tool images
             const leftCol = document.createElement('div');
             leftCol.className = 'match-column';
-            leftCol.innerHTML = '<h3>Tools</h3>';
+            leftCol.innerHTML = `<h3>${activeMatchType === 'tools' ? 'Tools' : 'Media'}</h3>`;
 
-            // Right column: names or functions
             const rightCol = document.createElement('div');
             rightCol.className = 'match-column';
             rightCol.innerHTML = isRound1 ? '<h3>Names</h3>' : '<h3>Functions</h3>';
 
-            // Create shuffled copies
-            const leftOrder = shuffleArray([...Array(toolData.length).keys()]);
-            const rightOrder = shuffleArray([...Array(toolData.length).keys()]);
+            const leftOrder = shuffleArray([...Array(data.length).keys()]);
+            const rightOrder = shuffleArray([...Array(data.length).keys()]);
 
-            // Build pairs tracking
-            matchPairs = toolData.map((t, i) => ({ index: i, matched: false }));
+            matchPairs = data.map((t, i) => ({ index: i, matched: false }));
 
             leftOrder.forEach(i => {
                 const item = document.createElement('div');
                 item.className = 'match-item';
                 item.dataset.index = i;
                 item.dataset.side = 'left';
-                item.innerHTML = `<img src="${toolData[i].image}" alt="Tool"><br><small>?</small>`;
+                item.innerHTML = `<img src="${data[i].image}" alt="${label}"><br><small>?</small>`;
                 item.onclick = () => selectMatchItem(item);
                 leftCol.appendChild(item);
             });
@@ -605,7 +624,7 @@
                 item.className = 'match-item';
                 item.dataset.index = i;
                 item.dataset.side = 'right';
-                item.textContent = isRound1 ? toolData[i].name : toolData[i].func;
+                item.textContent = isRound1 ? data[i].name : data[i].func;
                 item.onclick = () => selectMatchItem(item);
                 rightCol.appendChild(item);
             });
@@ -618,43 +637,38 @@
             if (item.classList.contains('matched')) return;
 
             const side = item.dataset.side;
+            const data = getActiveMatchData();
 
             if (side === 'left') {
-                // Deselect previous left
                 if (matchSelectedLeft) matchSelectedLeft.classList.remove('selected');
                 matchSelectedLeft = item;
                 item.classList.add('selected');
             } else {
-                // Deselect previous right
                 if (matchSelectedRight) matchSelectedRight.classList.remove('selected');
                 matchSelectedRight = item;
                 item.classList.add('selected');
             }
 
-            // Check if both sides selected
             if (matchSelectedLeft && matchSelectedRight) {
                 const leftIndex = parseInt(matchSelectedLeft.dataset.index);
                 const rightIndex = parseInt(matchSelectedRight.dataset.index);
                 matchTotal++;
 
                 if (leftIndex === rightIndex) {
-                    // Correct match
                     matchCorrect++;
                     matchSelectedLeft.classList.remove('selected');
                     matchSelectedRight.classList.remove('selected');
                     matchSelectedLeft.classList.add('matched');
                     matchSelectedRight.classList.add('matched');
-                    // Show the name on the left item
                     const label = matchSelectedLeft.querySelector('small');
-                    if (label) label.textContent = toolData[leftIndex].name;
+                    if (label) label.textContent = data[leftIndex].name;
                     matchMatched++;
                     playSound('correct');
 
                     matchSelectedLeft = null;
                     matchSelectedRight = null;
 
-                    // Check if all matched
-                    if (matchMatched === toolData.length) {
+                    if (matchMatched === data.length) {
                         document.getElementById('matchScore').textContent =
                             `Round ${matchRound} complete! ${matchCorrect}/${matchTotal} correct`;
                         if (matchRound === 1) {
@@ -666,7 +680,6 @@
                         }
                     }
                 } else {
-                    // Wrong match
                     playSound('incorrect');
                     matchSelectedLeft.classList.add('wrong');
                     matchSelectedRight.classList.add('wrong');
@@ -680,12 +693,6 @@
                     matchSelectedRight = null;
                 }
             }
-        }
-
-        function startMatchRound2() {
-            matchRound = 2;
-            document.getElementById('matchNextBtn').style.display = 'none';
-            buildMatchRound();
         }
 
         function playSound(type) {
