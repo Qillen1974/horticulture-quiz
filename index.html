@@ -653,6 +653,7 @@
         let score = { correct: 0, total: 0 };
         let currentQuestion = {};
         let answered = false;
+        let askedQuestions = {}; // track asked question indices per category
 
         // Match state
         let matchSelectedLeft = null;
@@ -809,7 +810,19 @@
 
         function newQuestion() {
             const categoryQuestions = questions[currentCategory];
-            currentQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
+
+            // Reset pool if all questions have been asked
+            if (!askedQuestions[currentCategory] || askedQuestions[currentCategory].length >= categoryQuestions.length) {
+                askedQuestions[currentCategory] = [];
+            }
+
+            // Pick a random question that hasn't been asked yet
+            const remaining = categoryQuestions
+                .map((q, i) => i)
+                .filter(i => !askedQuestions[currentCategory].includes(i));
+            const pick = remaining[Math.floor(Math.random() * remaining.length)];
+            askedQuestions[currentCategory].push(pick);
+            currentQuestion = categoryQuestions[pick];
             answered = false;
 
             const emojiEl = document.getElementById('questionEmoji');
