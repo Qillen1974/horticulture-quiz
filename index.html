@@ -308,6 +308,287 @@
             color: #718096;
             margin-bottom: 15px;
         }
+
+        /* Assessment styles */
+        .assessment-intro {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .assessment-intro h2 {
+            font-size: 1.6rem;
+            color: #276749;
+            margin-bottom: 15px;
+        }
+
+        .assessment-intro p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .assessment-start-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .assessment-start-btn:hover {
+            background: #38a169;
+            transform: scale(1.05);
+        }
+
+        .assessment-progress {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .assessment-progress-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+
+        .assessment-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 3px solid #e2e8f0;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .assessment-input:focus {
+            outline: none;
+            border-color: #48bb78;
+        }
+
+        .assessment-input.correct-border {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .assessment-input.incorrect-border {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .assessment-submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .assessment-submit-btn:hover {
+            background: #3182ce;
+        }
+
+        .assessment-submit-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .model-answer {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .model-answer strong {
+            color: #2b6cb0;
+        }
+
+        .self-assess-buttons {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .self-assess-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .self-assess-btn.got-it {
+            background: #c6f6d5;
+            color: #22543d;
+            border-color: #48bb78;
+        }
+
+        .self-assess-btn.got-it:hover {
+            background: #9ae6b4;
+        }
+
+        .self-assess-btn.not-quite {
+            background: #fed7d7;
+            color: #742a2a;
+            border-color: #f56565;
+        }
+
+        .self-assess-btn.not-quite:hover {
+            background: #feb2b2;
+        }
+
+        .assessment-feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .assessment-feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .assessment-feedback.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .assessment-next-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .assessment-next-btn:hover {
+            background: #38a169;
+        }
+
+        .results-summary {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .results-summary h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .results-score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .results-score.pass {
+            color: #48bb78;
+        }
+
+        .results-score.fail {
+            color: #e53e3e;
+        }
+
+        .results-message {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .results-percentage {
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .review-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .review-list h3 {
+            color: #276749;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .review-item {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .review-item .review-q {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .review-item .review-your {
+            color: #742a2a;
+        }
+
+        .review-item .review-correct {
+            color: #22543d;
+            font-weight: bold;
+        }
+
+        .assessment-category-tag {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -327,6 +608,7 @@
             <button class="category-btn" onclick="setCategory('matchmedia', this)">🔗 Match Media</button>
             <button class="category-btn" onclick="setCategory('plantcare', this)">🌱 Plant Care</button>
             <button class="category-btn" onclick="setCategory('safety', this)">⚠️ Safety</button>
+            <button class="category-btn" onclick="setCategory('assessment', this)">📝 Assessment</button>
         </div>
 
         <!-- Standard quiz area -->
@@ -361,6 +643,9 @@
             <button class="next-btn" id="matchNextBtn" style="display: none;">Next Round ➡️</button>
             <button class="next-btn" id="matchRestartBtn" style="display: none;">Play Again 🔄</button>
         </div>
+
+        <!-- Assessment area -->
+        <div class="quiz-area" id="assessmentArea" style="display: none;"></div>
     </div>
 
     <script>
@@ -505,14 +790,19 @@
             });
             btnElement.classList.add('active');
 
-            if (category === 'match' || category === 'matchmedia') {
-                document.getElementById('quizArea').style.display = 'none';
+            document.getElementById('quizArea').style.display = 'none';
+            document.getElementById('matchArea').style.display = 'none';
+            document.getElementById('assessmentArea').style.display = 'none';
+
+            if (category === 'assessment') {
+                document.getElementById('assessmentArea').style.display = 'block';
+                showAssessmentIntro();
+            } else if (category === 'match' || category === 'matchmedia') {
                 document.getElementById('matchArea').style.display = 'block';
                 activeMatchType = category === 'match' ? 'tools' : 'media';
                 startMatch();
             } else {
                 document.getElementById('quizArea').style.display = 'block';
-                document.getElementById('matchArea').style.display = 'none';
                 newQuestion();
             }
         }
@@ -771,6 +1061,331 @@
                     oscillator.stop(audioContext.currentTime + 0.1);
                 }
             } catch (e) {}
+        }
+
+        // ========== Assessment ==========
+
+        const assessmentQuestions = [
+            // Tools - identify by image (auto-graded)
+            { id: 1, image: "images/tools images/IMG_9968.jpeg", question: "What is this tool called?", type: "auto", answer: "Hand Trowel", acceptAlso: ["hand trowel", "trowel"], category: "Tools" },
+            { id: 2, image: "images/tools images/IMG_9969.jpeg", question: "What is this tool called?", type: "auto", answer: "Secateurs", acceptAlso: ["secateurs", "secateur", "pruning shears", "pruner", "pruners", "shears"], category: "Tools" },
+            { id: 3, image: "images/tools images/IMG_9970.jpeg", question: "What is this tool called?", type: "auto", answer: "Hand Fork", acceptAlso: ["hand fork", "fork", "garden fork"], category: "Tools" },
+            { id: 4, image: "images/tools images/IMG_9971.jpeg", question: "What is this tool called?", type: "auto", answer: "Pungkis", acceptAlso: ["pungkis", "basket", "scoop"], category: "Tools" },
+            { id: 5, image: "images/tools images/IMG_9972.jpeg", question: "What is this tool called?", type: "auto", answer: "Rake", acceptAlso: ["rake", "garden rake"], category: "Tools" },
+            { id: 6, image: "images/tools images/IMG_9973.jpeg", question: "What is this tool called?", type: "auto", answer: "Watering Can", acceptAlso: ["watering can", "water can", "watering"], category: "Tools" },
+            { id: 7, image: "images/tools images/IMG_9974.jpeg", question: "What is this tool called?", type: "auto", answer: "Wheelbarrow", acceptAlso: ["wheelbarrow", "wheel barrow", "barrow"], category: "Tools" },
+
+            // Tool functions (auto-graded with keywords)
+            { id: 8, question: "What is the function of the Hand Trowel?", type: "auto", answer: "Dig, scoop, and smooth soil media", acceptAlso: ["dig", "scoop", "smooth soil", "digging", "scooping"], category: "Tools" },
+            { id: 9, question: "What is the function of the Secateurs?", type: "auto", answer: "Cut stems, leaves, and roots", acceptAlso: ["cut", "cutting", "prune", "pruning", "trim", "trimming"], category: "Tools" },
+            { id: 10, question: "What is the function of the Hand Fork?", type: "auto", answer: "Loosen soil and remove weeds", acceptAlso: ["loosen", "loosen soil", "remove weeds", "weeding", "weed"], category: "Tools" },
+            { id: 11, question: "What is the function of the Rake?", type: "auto", answer: "Sweep dried leaves and dirt", acceptAlso: ["sweep", "sweeping", "sweep leaves", "leaves", "dried leaves"], category: "Tools" },
+            { id: 12, question: "What is the function of the Watering Can?", type: "auto", answer: "Water plants", acceptAlso: ["water", "watering", "water plants", "watering plants"], category: "Tools" },
+
+            // Tool Parts (auto-graded)
+            { id: 13, image: "images/tools images/IMG_9958.jpeg", question: "What is Part A on the secateurs called?", type: "auto", answer: "Blades", acceptAlso: ["blades", "blade", "cutting blade", "cutting blades"], category: "Tool Parts" },
+            { id: 14, image: "images/tools images/IMG_9958.jpeg", question: "What is Part B on the secateurs called?", type: "auto", answer: "Safety Lock Catch", acceptAlso: ["safety lock", "lock catch", "safety catch", "lock", "catch", "safety lock catch"], category: "Tool Parts" },
+            { id: 15, image: "images/tools images/IMG_9958.jpeg", question: "What is Part C on the secateurs called?", type: "auto", answer: "Handle", acceptAlso: ["handle", "handles", "grip"], category: "Tool Parts" },
+
+            // Soil Media - identify by image (auto-graded)
+            { id: 16, image: "images/media images/IMG_9959.jpeg", question: "What is this soil media called?", type: "auto", answer: "Sand", acceptAlso: ["sand"], category: "Soil Media" },
+            { id: 17, image: "images/media images/IMG_9960.jpeg", question: "What is this soil media called?", type: "auto", answer: "Top Soil", acceptAlso: ["top soil", "topsoil", "soil"], category: "Soil Media" },
+            { id: 18, image: "images/media images/IMG_9961.jpeg", question: "What is this soil media called?", type: "auto", answer: "Cocopeat", acceptAlso: ["cocopeat", "coco peat", "coconut peat", "coco"], category: "Soil Media" },
+            { id: 19, image: "images/media images/IMG_9962.jpeg", question: "What is this soil media called?", type: "auto", answer: "Perlite", acceptAlso: ["perlite"], category: "Soil Media" },
+            { id: 20, image: "images/media images/IMG_9963.jpeg", question: "What is this soil media called?", type: "auto", answer: "Vermiculite", acceptAlso: ["vermiculite"], category: "Soil Media" },
+
+            // Media functions (auto-graded)
+            { id: 21, question: "What does Sand do in a soil mix?", type: "auto", answer: "Improves drainage", acceptAlso: ["drainage", "drain", "improves drainage", "draining"], category: "Soil Media" },
+            { id: 22, question: "What does Cocopeat do in a soil mix?", type: "auto", answer: "Holds water", acceptAlso: ["holds water", "hold water", "water retention", "retain water", "retains water", "moisture"], category: "Soil Media" },
+            { id: 23, question: "What does Perlite do in a soil mix?", type: "auto", answer: "Aeration and drainage", acceptAlso: ["aeration", "drainage", "air", "aerate", "drain"], category: "Soil Media" },
+
+            // Propagation (self-assessed)
+            { id: 24, question: "Name two methods of asexual propagation.", type: "self", modelAnswer: "Any two of: Cutting, Grafting, Division, Layering", category: "Propagation" },
+            { id: 25, question: "What is the parent plant used for?", type: "self", modelAnswer: "Making new plants through cuttings, division, layering, or grafting. New plants share the same genes as the parent, so they are high quality.", category: "Propagation" },
+            { id: 26, question: "What are the two types of graft?", type: "self", modelAnswer: "Scion graft (putting a small plant piece onto stock) and Bud graft (moving a leaf bud from one tree to another)", category: "Propagation" },
+            { id: 27, question: "How do you treat buds for pests and diseases?", type: "self", modelAnswer: "Dip the buds in a fungicide solution and keep them in a cool, moist place.", category: "Propagation" },
+
+            // Soil Mix knowledge (self-assessed)
+            { id: 28, question: "What is the mixing ratio for leaf propagation?", type: "auto", answer: "3 parts sand to 1 part cocopeat", acceptAlso: ["3:1", "3 to 1", "3 sand 1 cocopeat", "3 parts sand", "three to one"], category: "Soil Media" },
+            { id: 29, question: "How should you store propagation media to keep it clean?", type: "self", modelAnswer: "Put propagation media in sealed bags. Cover and lift any torn bags onto pallets.", category: "Soil Media" },
+
+            // Plant Care (self-assessed)
+            { id: 30, question: "Why do we take care of newly grown plants?", type: "self", modelAnswer: "Young plants are delicate (sensitive), but when we take good care of them, they grow and become strong.", category: "Plant Care" },
+            { id: 31, question: "How should you use fertilizer on young plants?", type: "self", modelAnswer: "Use a small amount of fertilizer and keep it away from the plant's stem.", category: "Plant Care" },
+
+            // Safety (self-assessed)
+            { id: 32, question: "What are the 3 steps for throwing away inorganic waste?", type: "self", modelAnswer: "1) Put the debris in a trash bag, 2) Tie the trash bag tightly, 3) Put the trash bag in the assigned waste disposal area.", category: "Safety" },
+            { id: 33, question: "Name two pieces of PPE you should wear during propagation.", type: "self", modelAnswer: "Any two of: Gloves (reduce injury, prevent chemical contact), Safety goggles (protect eyes from chemical splashes), Hat (protects head from chemicals)", category: "Safety" },
+            { id: 34, question: "How should chemicals be stored safely?", type: "self", modelAnswer: "1) Check the Safety Data Sheet, 2) Keep chemical in its original container, 3) Label the container with hazard warning signs.", category: "Safety" },
+            { id: 35, question: "What do safety goggles protect against?", type: "auto", answer: "Chemical splashes that could cause blindness", acceptAlso: ["chemical splashes", "splashes", "chemicals", "blindness", "chemical splash", "eye protection", "protect eyes"], category: "Safety" }
+        ];
+
+        let assessmentState = {
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            answers: [], // { question, userAnswer, correct, correctAnswer }
+            active: false
+        };
+
+        function showAssessmentIntro() {
+            const area = document.getElementById('assessmentArea');
+            area.innerHTML = `
+                <div class="assessment-intro">
+                    <h2>📝 Assessment Mode</h2>
+                    <p>Answer <strong>20 questions</strong> from memory.<br>
+                    Type your answers — no multiple choice!<br>
+                    You need <strong>70% to pass</strong> (14 out of 20).</p>
+                    <p style="font-size: 0.95rem; color: #718096;">Some questions are auto-marked. For longer answers, you'll compare with a model answer and mark yourself.</p>
+                    <button class="assessment-start-btn" onclick="startAssessment()">Start Assessment</button>
+                </div>
+            `;
+        }
+
+        function startAssessment() {
+            // Pick 20 random non-duplicate questions
+            const shuffled = shuffleArray([...assessmentQuestions]);
+            assessmentState = {
+                questions: shuffled.slice(0, 20),
+                currentIndex: 0,
+                score: 0,
+                answers: [],
+                active: true
+            };
+            showAssessmentQuestion();
+        }
+
+        function showAssessmentQuestion() {
+            const area = document.getElementById('assessmentArea');
+            const q = assessmentState.questions[assessmentState.currentIndex];
+            const num = assessmentState.currentIndex + 1;
+            const total = assessmentState.questions.length;
+            const progressPct = ((num - 1) / total * 100).toFixed(0);
+
+            let imageHtml = '';
+            if (q.image) {
+                imageHtml = `<img class="question-image" src="${q.image}" alt="Question image" style="display:block; margin: 0 auto 15px;">`;
+            }
+
+            area.innerHTML = `
+                <div class="assessment-progress">
+                    <div class="assessment-progress-text">Question ${num} of ${total}</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: ${progressPct}%"></div>
+                    </div>
+                </div>
+                <div class="question-card">
+                    <span class="assessment-category-tag">${q.category}</span>
+                    ${imageHtml}
+                    <div class="question-text">${q.question}</div>
+                </div>
+                <input type="text" class="assessment-input" id="assessmentInput" placeholder="Type your answer here..." autocomplete="off">
+                <button class="assessment-submit-btn" id="assessmentSubmitBtn" onclick="submitAssessmentAnswer()">Submit Answer</button>
+                <div id="assessmentFeedback"></div>
+            `;
+
+            const input = document.getElementById('assessmentInput');
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    submitAssessmentAnswer();
+                }
+            });
+            input.focus();
+        }
+
+        function checkFlexibleMatch(userAnswer, correctAnswer, acceptAlso) {
+            if (!userAnswer || userAnswer.trim() === '') return false;
+
+            const clean = str => str.toLowerCase().trim().replace(/[^a-z0-9\s:]/g, '').replace(/\s+/g, ' ');
+            const userClean = clean(userAnswer);
+
+            if (userClean === '') return false;
+
+            // Check exact match with correct answer
+            if (userClean === clean(correctAnswer)) return true;
+
+            // Check against acceptAlso list
+            if (acceptAlso) {
+                for (const alt of acceptAlso) {
+                    const altClean = clean(alt);
+                    // User's answer matches an accepted alternative
+                    if (userClean === altClean) return true;
+                    // User's answer contains the alternative
+                    if (userClean.includes(altClean)) return true;
+                    // Alternative contains the user's answer (for partial matches like "trowel" matching "hand trowel")
+                    if (altClean.includes(userClean) && userClean.length >= 3) return true;
+                }
+            }
+
+            // Check if user answer contains key words from the correct answer
+            const correctWords = clean(correctAnswer).split(' ').filter(w => w.length > 3);
+            if (correctWords.length > 0) {
+                const matchCount = correctWords.filter(w => userClean.includes(w)).length;
+                if (matchCount >= Math.ceil(correctWords.length * 0.5)) return true;
+            }
+
+            return false;
+        }
+
+        function submitAssessmentAnswer() {
+            const input = document.getElementById('assessmentInput');
+            const submitBtn = document.getElementById('assessmentSubmitBtn');
+            const feedbackDiv = document.getElementById('assessmentFeedback');
+            const userAnswer = input.value.trim();
+            const q = assessmentState.questions[assessmentState.currentIndex];
+
+            if (!userAnswer) {
+                input.style.borderColor = '#f56565';
+                input.placeholder = 'Please type an answer first!';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            input.disabled = true;
+
+            if (q.type === 'auto') {
+                const isCorrect = checkFlexibleMatch(userAnswer, q.answer, q.acceptAlso);
+
+                if (isCorrect) {
+                    assessmentState.score++;
+                    input.classList.add('correct-border');
+                    feedbackDiv.innerHTML = `
+                        <div class="assessment-feedback correct">Correct!</div>
+                        <button class="assessment-next-btn" onclick="nextAssessmentQuestion()">Next Question</button>
+                    `;
+                    playSound('correct');
+                } else {
+                    input.classList.add('incorrect-border');
+                    feedbackDiv.innerHTML = `
+                        <div class="assessment-feedback incorrect">Not quite</div>
+                        <div class="model-answer"><strong>Correct answer:</strong> ${q.answer}</div>
+                        <button class="assessment-next-btn" onclick="nextAssessmentQuestion()">Next Question</button>
+                    `;
+                    playSound('incorrect');
+                }
+
+                assessmentState.answers.push({
+                    question: q.question,
+                    userAnswer: userAnswer,
+                    correct: isCorrect,
+                    correctAnswer: q.answer,
+                    category: q.category
+                });
+
+            } else {
+                // Self-assessed: reveal model answer
+                feedbackDiv.innerHTML = `
+                    <div class="model-answer">
+                        <strong>Your answer:</strong> ${userAnswer}<br><br>
+                        <strong>Model answer:</strong> ${q.modelAnswer}
+                    </div>
+                    <p style="text-align: center; color: #4a5568; margin: 10px 0;">Did your answer cover the key points?</p>
+                    <div class="self-assess-buttons">
+                        <button class="self-assess-btn got-it" onclick="selfAssess(true)">I Got It</button>
+                        <button class="self-assess-btn not-quite" onclick="selfAssess(false)">Not Quite</button>
+                    </div>
+                `;
+            }
+        }
+
+        function selfAssess(gotIt) {
+            const q = assessmentState.questions[assessmentState.currentIndex];
+            const input = document.getElementById('assessmentInput');
+            const feedbackDiv = document.getElementById('assessmentFeedback');
+
+            if (gotIt) {
+                assessmentState.score++;
+                input.classList.add('correct-border');
+                playSound('correct');
+            } else {
+                input.classList.add('incorrect-border');
+                playSound('incorrect');
+            }
+
+            assessmentState.answers.push({
+                question: q.question,
+                userAnswer: input.value.trim(),
+                correct: gotIt,
+                correctAnswer: q.modelAnswer,
+                category: q.category
+            });
+
+            // Replace self-assess buttons with next button
+            const buttons = feedbackDiv.querySelector('.self-assess-buttons');
+            const hint = feedbackDiv.querySelector('p');
+            if (buttons) buttons.remove();
+            if (hint) hint.remove();
+
+            const feedback = document.createElement('div');
+            feedback.className = `assessment-feedback ${gotIt ? 'correct' : 'incorrect'}`;
+            feedback.textContent = gotIt ? 'Marked as correct!' : 'Marked as incorrect';
+            feedbackDiv.insertBefore(feedback, feedbackDiv.firstChild);
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'assessment-next-btn';
+            nextBtn.textContent = 'Next Question';
+            nextBtn.onclick = nextAssessmentQuestion;
+            feedbackDiv.appendChild(nextBtn);
+        }
+
+        function nextAssessmentQuestion() {
+            assessmentState.currentIndex++;
+            if (assessmentState.currentIndex >= assessmentState.questions.length) {
+                showAssessmentResults();
+            } else {
+                showAssessmentQuestion();
+            }
+        }
+
+        function showAssessmentResults() {
+            const area = document.getElementById('assessmentArea');
+            const s = assessmentState;
+            const pct = Math.round((s.score / s.questions.length) * 100);
+            const passed = pct >= 70;
+
+            const wrongAnswers = s.answers.filter(a => !a.correct);
+
+            let reviewHtml = '';
+            if (wrongAnswers.length > 0) {
+                reviewHtml = `
+                    <div class="review-list">
+                        <h3>Review — Questions to Practice</h3>
+                        ${wrongAnswers.map(a => `
+                            <div class="review-item">
+                                <div class="review-q">${a.question}</div>
+                                <div class="review-your">Your answer: ${a.userAnswer}</div>
+                                <div class="review-correct">Correct: ${a.correctAnswer}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            area.innerHTML = `
+                <div class="results-summary">
+                    <h2>${passed ? 'Well Done!' : 'Keep Practising!'}</h2>
+                    <div class="results-score ${passed ? 'pass' : 'fail'}">${s.score}/${s.questions.length}</div>
+                    <div class="results-percentage">${pct}%</div>
+                    <div class="results-message">
+                        ${passed
+                            ? 'You passed the assessment! Great recall — you are well prepared for your oral test.'
+                            : 'You need 70% to pass. Don\'t worry — practise the topics below and try again. You\'re getting there!'}
+                    </div>
+                    <div class="progress-bar" style="margin: 15px 0;">
+                        <div class="progress-bar-fill" style="width: ${pct}%; background: ${passed ? 'linear-gradient(90deg, #48bb78, #38a169)' : 'linear-gradient(90deg, #f56565, #e53e3e)'}"></div>
+                    </div>
+                    ${reviewHtml}
+                    <button class="assessment-start-btn" onclick="startAssessment()" style="margin-top: 15px;">Try Again</button>
+                </div>
+            `;
+
+            if (passed) {
+                playSound('correct');
+            }
+        }
+
+        function retakeAssessment() {
+            startAssessment();
         }
 
         newQuestion();
