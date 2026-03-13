@@ -589,6 +589,40 @@
             font-size: 0.8rem;
             margin-bottom: 8px;
         }
+        
+        /* Memory Practice styles */
+        .memory-intro { text-align: center; padding: 30px 20px; }
+        .memory-intro h2 { font-size: 1.6rem; color: #276749; margin-bottom: 15px; }
+        .memory-intro p { font-size: 1.1rem; color: #4a5568; margin-bottom: 15px; line-height: 1.6; }
+        .memory-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+        .memory-stat-card { background: #f0fff4; border: 2px solid #48bb78; border-radius: 12px; padding: 15px; text-align: center; }
+        .memory-stat-number { font-size: 2rem; font-weight: bold; color: #276749; }
+        .memory-stat-label { font-size: 0.9rem; color: #718096; margin-top: 5px; }
+        .memory-start-btn { padding: 15px 40px; font-size: 1.2rem; background: #48bb78; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 10px 5px; }
+        .memory-start-btn:hover { background: #38a169; transform: scale(1.05); }
+        .memory-start-btn.secondary { background: #4299e1; }
+        .memory-start-btn.secondary:hover { background: #3182ce; }
+        .memory-card { background: #f0fff4; border-radius: 15px; padding: 25px; text-align: center; margin-bottom: 20px; }
+        .memory-question-text { font-size: 1.4rem; color: #2d3748; font-weight: bold; margin-bottom: 20px; }
+        .memory-answer-box { background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 15px 0; text-align: left; display: none; }
+        .memory-answer-box.show { display: block; }
+        .memory-answer-text { font-size: 1.1rem; color: #2d3748; line-height: 1.8; }
+        .memory-answer-text ul { list-style: none; padding-left: 0; margin: 10px 0; }
+        .memory-answer-text li { padding: 5px 0; padding-left: 25px; position: relative; }
+        .memory-answer-text li:before { content: "•"; color: #48bb78; font-weight: bold; font-size: 1.5rem; position: absolute; left: 5px; top: -2px; }
+        .memory-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+        .memory-btn { padding: 12px 25px; font-size: 1.1rem; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .memory-btn.show-answer { background: #4299e1; color: white; }
+        .memory-btn.show-answer:hover { background: #3182ce; }
+        .memory-btn.got-it { background: #48bb78; color: white; }
+        .memory-btn.got-it:hover { background: #38a169; }
+        .memory-btn.need-practice { background: #ed8936; color: white; }
+        .memory-btn.need-practice:hover { background: #dd6b20; }
+        .memory-btn.next { background: #48bb78; color: white; }
+        .memory-btn.next:hover { background: #38a169; }
+        .memory-progress { text-align: center; margin-bottom: 15px; }
+        .memory-progress-text { font-size: 1.1rem; color: #4a5568; font-weight: bold; margin-bottom: 8px; }
+        .memory-daily-goal { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 12px; margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #2d3748; }
     </style>
 </head>
 <body>
@@ -609,6 +643,7 @@
             <button class="category-btn" onclick="setCategory('plantcare', this)">🌱 Plant Care</button>
             <button class="category-btn" onclick="setCategory('safety', this)">⚠️ Safety</button>
             <button class="category-btn" onclick="setCategory('assessment', this)">📝 Assessment</button>
+            <button class="category-btn" onclick="setCategory('memory', this)">📚 Memory Practice</button>
         </div>
 
         <!-- Standard quiz area -->
@@ -646,6 +681,9 @@
 
         <!-- Assessment area -->
         <div class="quiz-area" id="assessmentArea" style="display: none;"></div>
+        
+        <!-- Memory Practice area -->
+        <div class="quiz-area" id="memoryArea" style="display: none;"></div>
     </div>
 
     <script>
@@ -794,10 +832,14 @@
             document.getElementById('quizArea').style.display = 'none';
             document.getElementById('matchArea').style.display = 'none';
             document.getElementById('assessmentArea').style.display = 'none';
+            document.getElementById('memoryArea').style.display = 'none';
 
             if (category === 'assessment') {
                 document.getElementById('assessmentArea').style.display = 'block';
                 showAssessmentIntro();
+            } else if (category === 'memory') {
+                document.getElementById('memoryArea').style.display = 'block';
+                showMemoryIntro();
             } else if (category === 'match' || category === 'matchmedia') {
                 document.getElementById('matchArea').style.display = 'block';
                 activeMatchType = category === 'match' ? 'tools' : 'media';
@@ -1113,24 +1155,28 @@
             { id: 23, question: "What does Perlite do in a soil mix?", type: "auto", answer: "Aeration and drainage", acceptAlso: ["aeration", "drainage", "air", "aerate", "drain"], category: "Soil Media" },
 
             // Propagation (self-assessed)
-            { id: 24, question: "Name two methods of asexual propagation.", type: "self", modelAnswer: "Any two of: Cutting, Grafting, Division, Layering", category: "Propagation" },
-            { id: 25, question: "What is the parent plant used for?", type: "self", modelAnswer: "Making new plants through cuttings, division, layering, or grafting. New plants share the same genes as the parent, so they are high quality.", category: "Propagation" },
-            { id: 26, question: "What are the two types of graft?", type: "self", modelAnswer: "Scion graft (putting a small plant piece onto stock) and Bud graft (moving a leaf bud from one tree to another)", category: "Propagation" },
-            { id: 27, question: "How do you treat buds for pests and diseases?", type: "self", modelAnswer: "Dip the buds in a fungicide solution and keep them in a cool, moist place.", category: "Propagation" },
+            { id: 24, question: "Name two methods of asexual propagation.", type: "self", modelAnswer: "• Cutting<br>• Grafting<br>• Division<br>• Layering", category: "Propagation" },
+            { id: 25, question: "What is the parent plant used for?", type: "self", modelAnswer: "• Original plant<br>• Source of plant material (cuttings/buds)<br>• Provides genetic characteristics", category: "Propagation" },
+            { id: 26, question: "What are the two types of graft?", type: "self", modelAnswer: "• Scion graft (whip/tongue graft)<br>• Bud graft (T-budding/chip budding)", category: "Propagation" },
+            { id: 27, question: "How do you treat buds for pests and diseases?", type: "self", modelAnswer: "• Dip buds in fungicide solution<br>• Inspect and remove infected parts<br>• Use clean, sharp tools", category: "Propagation" },
 
             // Soil Mix knowledge (self-assessed)
             { id: 28, question: "What is the mixing ratio for leaf propagation?", type: "auto", answer: "3 parts sand to 1 part cocopeat", acceptAlso: ["3:1", "3 to 1", "3 sand 1 cocopeat", "3 parts sand", "three to one"], category: "Soil Media" },
-            { id: 29, question: "How should you store propagation media to keep it clean?", type: "self", modelAnswer: "Put propagation media in sealed bags. Cover and lift any torn bags onto pallets.", category: "Soil Media" },
+            { id: 29, question: "How should you store propagation media to keep it clean?", type: "self", modelAnswer: "• Wear gloves and PPE<br>• Use clean, sterilized tools<br>• Mix media thoroughly<br>• Store in dry, covered area", category: "Soil Media" },
 
             // Plant Care (self-assessed)
-            { id: 30, question: "Why do we take care of newly grown plants?", type: "self", modelAnswer: "Young plants are delicate (sensitive), but when we take good care of them, they grow and become strong.", category: "Plant Care" },
-            { id: 31, question: "How should you use fertilizer on young plants?", type: "self", modelAnswer: "Use a small amount of fertilizer and keep it away from the plant's stem.", category: "Plant Care" },
+            { id: 30, question: "Why do we take care of newly grown plants?", type: "self", modelAnswer: "• Ensure high survival rate<br>• Reduce transplant shock<br>• Promote healthy root establishment<br>• Monitor for pests/diseases", category: "Plant Care" },
+            { id: 31, question: "How should you use fertilizer on young plants?", type: "self", modelAnswer: "• Apply fertilizer to soil/medium<br>• Foliar spray (liquid fertilizer on leaves)", category: "Plant Care" },
 
             // Safety (self-assessed)
-            { id: 32, question: "What are the 3 steps for throwing away inorganic waste?", type: "self", modelAnswer: "1) Put the debris in a trash bag, 2) Tie the trash bag tightly, 3) Put the trash bag in the assigned waste disposal area.", category: "Safety" },
-            { id: 33, question: "Name two pieces of PPE you should wear during propagation.", type: "self", modelAnswer: "Any two of: Gloves (reduce injury, prevent chemical contact), Safety goggles (protect eyes from chemical splashes), Hat (protects head from chemicals)", category: "Safety" },
-            { id: 34, question: "How should chemicals be stored safely?", type: "self", modelAnswer: "1) Check the Safety Data Sheet, 2) Keep chemical in its original container, 3) Label the container with hazard warning signs.", category: "Safety" },
-            { id: 35, question: "What do safety goggles protect against?", type: "auto", answer: "Chemical splashes that could cause blindness", acceptAlso: ["chemical splashes", "splashes", "chemicals", "blindness", "chemical splash", "eye protection", "protect eyes"], category: "Safety" }
+            { id: 32, question: "What are the 3 steps for throwing away inorganic waste?", type: "self", modelAnswer: "• Segregate from organic waste<br>• Use designated recycling/disposal bins<br>• Follow workplace waste disposal procedures", category: "Safety" },
+            { id: 33, question: "Name two pieces of PPE you should wear during propagation.", type: "self", modelAnswer: "• Gloves (protect hands)<br>• Safety goggles (protect eyes)<br>• Hat/cap (sun protection)", category: "Safety" },
+            { id: 34, question: "How should chemicals be stored safely?", type: "self", modelAnswer: "• Keep in original labeled containers<br>• Store in cool, dry, well-ventilated area<br>• Keep away from children and food<br>• Lock storage area if possible", category: "Safety" },
+            { id: 35, question: "What do safety goggles protect against?", type: "auto", answer: "Chemical splashes that could cause blindness", acceptAlso: ["chemical splashes", "splashes", "chemicals", "blindness", "chemical splash", "eye protection", "protect eyes"], category: "Safety" },
+            
+            // PPP Oral Assessment Questions (added Mar 13, 2026) - Point-form for memorization
+            { id: 36, question: "What is topsoil used for?", type: "self", modelAnswer: "• Provides nutrients for plant growth<br>• Supports root development<br>• Contains organic matter", category: "PPP Oral" },
+            { id: 37, question: "What are the guidelines for planting propagation media?", type: "self", modelAnswer: "• Make planting holes first<br>• Insert cuttings gently (don't crush)<br>• Firm media around base<br>• Water lightly after planting", category: "PPP Oral" }
         ];
 
         let assessmentState = {
@@ -1399,6 +1445,245 @@
 
         function retakeAssessment() {
             startAssessment();
+        }
+
+        // ========== Memory Practice Mode ==========
+        
+        // PPP Oral Assessment questions with point-form answers for memorization
+        const memoryPracticeQuestions = [
+            { id: 1, question: "Name four asexual propagation methods.", answer: "• Cutting<br>• Grafting<br>• Division<br>• Layering", category: "Propagation" },
+            { id: 2, question: "What is a parent plant used for?", answer: "• Original plant<br>• Source of plant material (cuttings/buds)<br>• Provides genetic characteristics", category: "Propagation" },
+            { id: 3, question: "What are the two types of graft?", answer: "• Scion graft (whip/tongue graft)<br>• Bud graft (T-budding/chip budding)", category: "Propagation" },
+            { id: 4, question: "How do you treat buds for pests and diseases?", answer: "• Dip buds in fungicide solution<br>• Inspect and remove infected parts<br>• Use clean, sharp tools", category: "Propagation" },
+            { id: 5, question: "What is topsoil used for?", answer: "• Provides nutrients for plant growth<br>• Supports root development<br>• Contains organic matter", category: "Soil Media" },
+            { id: 6, question: "What is the mixing ratio for leaf propagation?", answer: "• 3 parts sand<br>• 1 part cocopeat<br>• (3:1 ratio)", category: "Soil Media" },
+            { id: 7, question: "What are guidelines for handling propagation media?", answer: "• Wear gloves and PPE<br>• Use clean, sterilized tools<br>• Mix media thoroughly<br>• Store in dry, covered area", category: "Safety" },
+            { id: 8, question: "What are guidelines for planting propagation media?", answer: "• Make planting holes first<br>• Insert cuttings gently (don't crush)<br>• Firm media around base<br>• Water lightly after planting", category: "Plant Care" },
+            { id: 9, question: "Why do we take care of newly grown plants?", answer: "• Ensure high survival rate<br>• Reduce transplant shock<br>• Promote healthy root establishment<br>• Monitor for pests/diseases", category: "Plant Care" },
+            { id: 10, question: "Name two ways to feed plants nutrients.", answer: "• Apply fertilizer to soil/medium<br>• Foliar spray (liquid fertilizer on leaves)", category: "Plant Care" },
+            { id: 11, question: "How do you dispose of inorganic waste?", answer: "• Segregate from organic waste<br>• Use designated recycling/disposal bins<br>• Follow workplace waste disposal procedures", category: "Safety" },
+            { id: 12, question: "Name two pieces of PPE to wear during propagation.", answer: "• Gloves (protect hands)<br>• Safety goggles (protect eyes)<br>• Hat/cap (sun protection)", category: "Safety" },
+            { id: 13, question: "How should chemicals be stored safely? (3 ways)", answer: "• Keep in original labeled containers<br>• Store in cool, dry, well-ventilated area<br>• Keep away from children and food<br>• Lock storage area if possible", category: "Safety" }
+        ];
+        
+        let memoryState = {
+            questions: [],
+            currentIndex: 0,
+            mastered: [], // question IDs marked as "Got It"
+            needPractice: [], // question IDs marked as "Need Practice"
+            active: false
+        };
+        
+        // Load progress from localStorage
+        function loadMemoryProgress() {
+            try {
+                const saved = localStorage.getItem('horticultureMemoryProgress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    memoryState.mastered = data.mastered || [];
+                    memoryState.needPractice = data.needPractice || [];
+                }
+            } catch (e) {}
+        }
+        
+        // Save progress to localStorage
+        function saveMemoryProgress() {
+            try {
+                localStorage.setItem('horticultureMemoryProgress', JSON.stringify({
+                    mastered: memoryState.mastered,
+                    needPractice: memoryState.needPractice
+                }));
+            } catch (e) {}
+        }
+        
+        function showMemoryIntro() {
+            loadMemoryProgress();
+            const area = document.getElementById('memoryArea');
+            const mastered = memoryState.mastered.length;
+            const needPractice = memoryState.needPractice.length;
+            const total = memoryPracticeQuestions.length;
+            const remaining = total - mastered;
+            
+            // Calculate daily goal
+            const daysUntilAssessment = 12; // March 25 - March 13
+            const dailyGoal = Math.ceil(remaining / daysUntilAssessment);
+            
+            area.innerHTML = `
+                <div class="memory-intro">
+                    <h2>📚 Memory Practice - PPP Oral Assessment</h2>
+                    <p>Practice the 13 oral assessment questions with point-form answers.<br>
+                    Mark each question as "Got It" or "Need Practice" to track your progress.</p>
+                    
+                    <div class="memory-stats">
+                        <div class="memory-stat-card">
+                            <div class="memory-stat-number" style="color: #48bb78;">${mastered}</div>
+                            <div class="memory-stat-label">Mastered ✅</div>
+                        </div>
+                        <div class="memory-stat-card">
+                            <div class="memory-stat-number" style="color: #ed8936;">${needPractice}</div>
+                            <div class="memory-stat-label">Need Practice ⚠️</div>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-daily-goal">
+                        📅 <strong>Daily Goal:</strong> Practice ${dailyGoal}-2 questions per day to master all ${remaining} remaining questions before March 25.
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="memory-start-btn" onclick="startMemoryPractice()">Start Practice</button>
+                        ${needPractice > 0 ? '<button class="memory-start-btn secondary" onclick="startMemoryReview()">Review Need Practice</button>' : ''}
+                        ${mastered > 0 ? '<button class="memory-start-btn secondary" onclick="resetMemoryProgress()" style="background: #e53e3e;">Reset Progress</button>' : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function startMemoryPractice() {
+            // Filter out mastered questions, or show all if all mastered
+            let questions = memoryPracticeQuestions.filter(q => !memoryState.mastered.includes(q.id));
+            if (questions.length === 0) questions = memoryPracticeQuestions; // Show all if all mastered
+            
+            memoryState.questions = shuffleArray(questions);
+            memoryState.currentIndex = 0;
+            memoryState.active = true;
+            showMemoryQuestion();
+        }
+        
+        function startMemoryReview() {
+            // Only show questions marked as "Need Practice"
+            let questions = memoryPracticeQuestions.filter(q => memoryState.needPractice.includes(q.id));
+            if (questions.length === 0) {
+                showMemoryIntro();
+                return;
+            }
+            
+            memoryState.questions = shuffleArray(questions);
+            memoryState.currentIndex = 0;
+            memoryState.active = true;
+            showMemoryQuestion();
+        }
+        
+        function showMemoryQuestion() {
+            const area = document.getElementById('memoryArea');
+            const q = memoryState.questions[memoryState.currentIndex];
+            const num = memoryState.currentIndex + 1;
+            const total = memoryState.questions.length;
+            const progressPct = ((num - 1) / total * 100).toFixed(0);
+            
+            area.innerHTML = `
+                <div class="memory-progress">
+                    <div class="memory-progress-text">Question ${num} of ${total}</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: ${progressPct}%"></div>
+                    </div>
+                </div>
+                <div class="memory-card">
+                    <span class="assessment-category-tag">${q.category}</span>
+                    <div class="memory-question-text">${q.question}</div>
+                    <div class="memory-answer-box" id="memoryAnswerBox">
+                        <div class="memory-answer-text">${q.answer}</div>
+                    </div>
+                </div>
+                <div class="memory-buttons" id="memoryButtons">
+                    <button class="memory-btn show-answer" onclick="showMemoryAnswer()">Show Answer 👁️</button>
+                </div>
+                <div class="memory-buttons" id="memoryAssessButtons" style="display: none;">
+                    <button class="memory-btn got-it" onclick="memoryAssess(true)">Got It ✅</button>
+                    <button class="memory-btn need-practice" onclick="memoryAssess(false)">Need Practice 🔄</button>
+                </div>
+            `;
+        }
+        
+        function showMemoryAnswer() {
+            document.getElementById('memoryAnswerBox').classList.add('show');
+            document.getElementById('memoryButtons').style.display = 'none';
+            document.getElementById('memoryAssessButtons').style.display = 'flex';
+        }
+        
+        function memoryAssess(gotIt) {
+            const q = memoryState.questions[memoryState.currentIndex];
+            
+            if (gotIt) {
+                // Add to mastered, remove from need practice
+                if (!memoryState.mastered.includes(q.id)) {
+                    memoryState.mastered.push(q.id);
+                }
+                memoryState.needPractice = memoryState.needPractice.filter(id => id !== q.id);
+            } else {
+                // Add to need practice
+                if (!memoryState.needPractice.includes(q.id)) {
+                    memoryState.needPractice.push(q.id);
+                }
+            }
+            
+            saveMemoryProgress();
+            nextMemoryQuestion();
+        }
+        
+        function nextMemoryQuestion() {
+            memoryState.currentIndex++;
+            if (memoryState.currentIndex >= memoryState.questions.length) {
+                showMemoryResults();
+            } else {
+                showMemoryQuestion();
+            }
+        }
+        
+        function showMemoryResults() {
+            const area = document.getElementById('memoryArea');
+            const mastered = memoryState.mastered.length;
+            const needPractice = memoryState.needPractice.length;
+            const total = memoryPracticeQuestions.length;
+            const pct = Math.round((mastered / total) * 100);
+            
+            let reviewHtml = '';
+            if (needPractice > 0) {
+                const reviewQuestions = memoryPracticeQuestions.filter(q => memoryState.needPractice.includes(q.id));
+                reviewHtml = `
+                    <div class="review-list">
+                        <h3>Questions to Review (${needPractice})</h3>
+                        ${reviewQuestions.map(q => `
+                            <div class="review-item">
+                                <div class="review-q">${q.question}</div>
+                                <div class="memory-answer-text" style="margin-top: 8px;">${q.answer}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            area.innerHTML = `
+                <div class="results-summary">
+                    <h2>${pct >= 80 ? 'Excellent Work! 🎉' : pct >= 50 ? 'Good Progress! 👍' : 'Keep Practising! 💪'}</h2>
+                    <div class="results-score" style="font-size: 3rem; color: ${pct >= 70 ? '#48bb78' : '#ed8936'};">${mastered}/${total}</div>
+                    <div class="results-percentage">${pct}% Mastered</div>
+                    <div class="results-message">
+                        ${pct >= 80 
+                            ? 'Amazing recall! You are well prepared for your oral assessment. Keep reviewing the remaining questions.'
+                            : pct >= 50
+                            ? 'You are making good progress! Focus on the questions marked "Need Practice" to improve your score.'
+                            : 'Don\\'t give up! Practice a few questions each day and you\\'ll master them before March 25.'}
+                    </div>
+                    <div class="progress-bar" style="margin: 15px 0;">
+                        <div class="progress-bar-fill" style="width: ${pct}%; background: ${pct >= 70 ? 'linear-gradient(90deg, #48bb78, #38a169)' : 'linear-gradient(90deg, #ed8936, #dd6b20)'}"></div>
+                    </div>
+                    ${reviewHtml}
+                    <div class="memory-buttons" style="margin-top: 20px;">
+                        <button class="memory-btn next" onclick="showMemoryIntro()">Back to Progress</button>
+                        ${needPractice > 0 ? '<button class="memory-btn got-it" onclick="startMemoryReview()">Review Need Practice</button>' : ''}
+                        ${pct < 100 ? '<button class="memory-btn show-answer" onclick="startMemoryPractice()">Continue Practice</button>' : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function resetMemoryProgress() {
+            if (confirm('Are you sure you want to reset all progress? This will clear your mastered and need practice lists.')) {
+                memoryState.mastered = [];
+                memoryState.needPractice = [];
+                saveMemoryProgress();
+                showMemoryIntro();
+            }
         }
 
         newQuestion();
