@@ -623,6 +623,214 @@
         .memory-progress { text-align: center; margin-bottom: 15px; }
         .memory-progress-text { font-size: 1.1rem; color: #4a5568; font-weight: bold; margin-bottom: 8px; }
         .memory-daily-goal { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 12px; margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #2d3748; }
+
+        /* Hint Animation Styles */
+        .memory-hint-container {
+            background: #fffbeb;
+            border: 2px solid #f6e05e;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            min-height: 180px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .memory-hint-container.show { display: block; }
+        .memory-hint-label {
+            font-size: 0.85rem;
+            color: #975a16;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .memory-btn.show-hint { background: #ecc94b; color: #744210; }
+        .memory-btn.show-hint:hover { background: #d69e2e; }
+
+        /* Hint scene */
+        .hint-scene {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+        .hint-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: hintStepIn 0.5s forwards;
+        }
+        .hint-step .hint-icon { font-size: 2.8rem; }
+        .hint-step .hint-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #4a5568;
+            text-align: center;
+            max-width: 100px;
+        }
+        .hint-arrow {
+            font-size: 1.8rem;
+            color: #a0aec0;
+            opacity: 0;
+            animation: hintStepIn 0.4s forwards;
+        }
+
+        /* Sequence hint (step-by-step with numbers) */
+        .hint-sequence {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        .hint-seq-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #48bb78;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: hintSlideIn 0.5s forwards;
+        }
+        .hint-seq-num {
+            width: 32px;
+            height: 32px;
+            background: #48bb78;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .hint-seq-icon { font-size: 2rem; flex-shrink: 0; }
+        .hint-seq-text { font-size: 1rem; color: #2d3748; font-weight: 600; }
+
+        /* Ratio hint */
+        .hint-ratio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .hint-scoop {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: scale(0);
+            animation: hintPopIn 0.4s forwards;
+        }
+        .hint-scoop.sand { background: #fefcbf; border: 2px solid #d69e2e; }
+        .hint-scoop.cocopeat { background: #c6f6d5; border: 2px solid #48bb78; }
+        .hint-ratio-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #975a16;
+            opacity: 0;
+            animation: hintPopIn 0.4s forwards;
+        }
+        .hint-ratio-label {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            opacity: 0;
+            animation: hintStepIn 0.4s forwards;
+        }
+
+        /* PPE hint */
+        .hint-ppe {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .hint-ppe-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: hintPopIn 0.5s forwards;
+            min-width: 90px;
+        }
+        .hint-ppe-icon { font-size: 3rem; }
+        .hint-ppe-name { font-size: 0.85rem; font-weight: bold; color: #2d3748; }
+        .hint-ppe-why { font-size: 0.75rem; color: #718096; text-align: center; max-width: 100px; }
+
+        /* Simple visual with big icon + text */
+        .hint-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: hintStepIn 0.6s forwards;
+        }
+        .hint-visual-icon { font-size: 4rem; }
+        .hint-visual-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Plant growth animation */
+        .hint-plant-grow {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 15px;
+            height: 120px;
+        }
+        .hint-plant-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            opacity: 0;
+            animation: hintGrowIn 0.6s forwards;
+        }
+        .hint-plant-stage .hint-icon { font-size: 2.2rem; }
+        .hint-plant-stage .hint-label { font-size: 0.75rem; color: #718096; }
+
+        @keyframes hintStepIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hintSlideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes hintPopIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes hintGrowIn {
+            0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -1451,19 +1659,66 @@
         
         // PPP Oral Assessment questions with point-form answers for memorization
         const memoryPracticeQuestions = [
-            { id: 1, question: "Describe the four asexual propagation methods.", answer: "1. <strong>Cutting</strong> - making new plants from a cut piece of the parent plant<br>2. <strong>Grafting</strong> - creating new plants by joining different parts of plants<br>3. <strong>Division</strong> - making new plants from one of the many rooted crowns<br>4. <strong>Layering</strong> - separate the rooted stem from the parent plant", category: "Propagation" },
-            { id: 2, question: "Can you explain what a parent plant is?", answer: "1. A parent plant is used for making new plants through cuttings, division, layering or grafting<br>2. The new plants are high quality because they share the same genes as the parent", category: "Propagation" },
-            { id: 3, question: "State two types of graft commonly used for plant propagation.", answer: "1. <strong>Scion Graft:</strong> putting a small plant piece (scion) onto another plant (stock)<br>2. <strong>Bud Graft:</strong> Moving a leaf bud from one tree to another", category: "Propagation" },
-            { id: 4, question: "Explain how to treat with pests and diseases in buds?", answer: "Dip the buds in a fungicide solution and keep them in a cool moist place.", category: "Propagation" },
-            { id: 5, question: "What is topsoil for?", answer: "Topsoil is like a cozy bed for plants, helping plant to spread their roots and take in nutrients.", category: "Soil Media" },
-            { id: 6, question: "What is the mixing ratio for leaf propagations?", answer: "3 part of sand, 1 part of cocopeat", category: "Soil Media" },
-            { id: 7, question: "List 2 guidelines when handling propagation media.", answer: "1. Put propagation media in sealed bags to keep it clean<br>2. Cover and lift any torn bags onto pallets to keep things clean", category: "Safety" },
-            { id: 8, question: "List 2 guidelines when planting propagation media.", answer: "1. Don't use old mixes again<br>2. Always clean containers and tools well", category: "Plant Care" },
-            { id: 9, question: "Why do we take care of a newly grown plants?", answer: "Young plants are sensitive but when we take good care of them they grow and become strong.", category: "Plant Care" },
-            { id: 10, question: "Select two ways to feed plants with nutrients?", answer: "1. Use a small amount of fertilizer on young plants<br>2. Keep fertilizer away from the plant stem", category: "Plant Care" },
-            { id: 11, question: "Explain how to throw away inorganic waste.", answer: "Step 1: Put the debris in a trash bag<br>Step 2: Tie the trash bag tightly<br>Step 3: Put the trash bag in the assigned waste disposal area", category: "Safety" },
-            { id: 12, question: "Describe 2 Personal Protective Equipment use during propagation activities.", answer: "1. <strong>Glove</strong> - protect hand from injury and harmful microbes<br>2. <strong>Safety Goggles</strong> - protect eyes from accidental splashes which can cause blindness<br>3. <strong>Hat</strong> - protect the head from chemicals", category: "Safety" },
-            { id: 13, question: "Explain three safe ways to store chemicals.", answer: "1. Check the safety data sheet for storage requirements<br>2. Keep the chemical in its original container<br>3. Properly label the chemical container with hazard warnings signs", category: "Safety" }
+            { id: 1, question: "Describe the four asexual propagation methods.", answer: "1. <strong>Cutting</strong> - making new plants from a cut piece of the parent plant<br>2. <strong>Grafting</strong> - creating new plants by joining different parts of plants<br>3. <strong>Division</strong> - making new plants from one of the many rooted crowns<br>4. <strong>Layering</strong> - separate the rooted stem from the parent plant", category: "Propagation", hintType: "steps", hint: [
+                { icon: "✂️", label: "Cutting", delay: 0 },
+                { icon: "🔗", label: "Grafting", delay: 0.5 },
+                { icon: "✌️", label: "Division", delay: 1.0 },
+                { icon: "↪️", label: "Layering", delay: 1.5 }
+            ]},
+            { id: 2, question: "Can you explain what a parent plant is?", answer: "1. A parent plant is used for making new plants through cuttings, division, layering or grafting<br>2. The new plants are high quality because they share the same genes as the parent", category: "Propagation", hintType: "visual", hint: {
+                icon: "🌳 ➡️ 🌱🌱🌱",
+                text: "One parent plant makes many new plants<br>All babies share the <strong>same genes</strong>"
+            }},
+            { id: 3, question: "State two types of graft commonly used for plant propagation.", answer: "1. <strong>Scion Graft:</strong> putting a small plant piece (scion) onto another plant (stock)<br>2. <strong>Bud Graft:</strong> Moving a leaf bud from one tree to another", category: "Propagation", hintType: "sequence", hint: [
+                { icon: "🌿", text: "Scion Graft: branch piece ➡️ onto stock plant", delay: 0 },
+                { icon: "🌸", text: "Bud Graft: one bud ➡️ moved to another tree", delay: 0.6 }
+            ]},
+            { id: 4, question: "Explain how to treat with pests and diseases in buds?", answer: "Dip the buds in a fungicide solution and keep them in a cool moist place.", category: "Propagation", hintType: "sequence", hint: [
+                { icon: "💧", text: "Dip buds in fungicide solution", delay: 0 },
+                { icon: "❄️", text: "Keep in a cool, moist place", delay: 0.6 }
+            ]},
+            { id: 5, question: "What is topsoil for?", answer: "Topsoil is like a cozy bed for plants, helping plant to spread their roots and take in nutrients.", category: "Soil Media", hintType: "visual", hint: {
+                icon: "🛏️🌱",
+                text: "Topsoil = <strong>cozy bed</strong> for plants<br>Helps roots spread + take in nutrients"
+            }},
+            { id: 6, question: "What is the mixing ratio for leaf propagations?", answer: "3 part of sand, 1 part of cocopeat", category: "Soil Media", hintType: "ratio", hint: {
+                item1: { icon: "🏖️", count: 3, label: "Sand", css: "sand" },
+                item2: { icon: "🥥", count: 1, label: "Cocopeat", css: "cocopeat" }
+            }},
+            { id: 7, question: "List 2 guidelines when handling propagation media.", answer: "1. Put propagation media in sealed bags to keep it clean<br>2. Cover and lift any torn bags onto pallets to keep things clean", category: "Safety", hintType: "sequence", hint: [
+                { icon: "🛍️", text: "Store in sealed bags — keep it clean", delay: 0 },
+                { icon: "📦", text: "Cover torn bags + lift onto pallets", delay: 0.6 }
+            ]},
+            { id: 8, question: "List 2 guidelines when planting propagation media.", answer: "1. Don't use old mixes again<br>2. Always clean containers and tools well", category: "Plant Care", hintType: "sequence", hint: [
+                { icon: "🚫", text: "Don't reuse old mixes", delay: 0 },
+                { icon: "✨", text: "Always clean containers and tools", delay: 0.6 }
+            ]},
+            { id: 9, question: "Why do we take care of a newly grown plants?", answer: "Young plants are sensitive but when we take good care of them they grow and become strong.", category: "Plant Care", hintType: "growth", hint: [
+                { icon: "🌱", label: "Young", delay: 0 },
+                { icon: "💧", label: "Care", delay: 0.5 },
+                { icon: "☀️", label: "Sun", delay: 1.0 },
+                { icon: "🌿", label: "Growing", delay: 1.5 },
+                { icon: "🌳", label: "Strong!", delay: 2.0 }
+            ]},
+            { id: 10, question: "Select two ways to feed plants with nutrients?", answer: "1. Use a small amount of fertilizer on young plants<br>2. Keep fertilizer away from the plant stem", category: "Plant Care", hintType: "sequence", hint: [
+                { icon: "🤏", text: "Use a SMALL amount of fertilizer", delay: 0 },
+                { icon: "↔️", text: "Keep fertilizer AWAY from the stem", delay: 0.6 }
+            ]},
+            { id: 11, question: "Explain how to throw away inorganic waste.", answer: "Step 1: Put the debris in a trash bag<br>Step 2: Tie the trash bag tightly<br>Step 3: Put the trash bag in the assigned waste disposal area", category: "Safety", hintType: "sequence", hint: [
+                { icon: "🗑️", text: "Put debris in a trash bag", delay: 0 },
+                { icon: "🪢", text: "Tie the bag tightly", delay: 0.6 },
+                { icon: "📍", text: "Place in assigned disposal area", delay: 1.2 }
+            ]},
+            { id: 12, question: "Describe 2 Personal Protective Equipment use during propagation activities.", answer: "1. <strong>Glove</strong> - protect hand from injury and harmful microbes<br>2. <strong>Safety Goggles</strong> - protect eyes from accidental splashes which can cause blindness<br>3. <strong>Hat</strong> - protect the head from chemicals", category: "Safety", hintType: "ppe", hint: [
+                { icon: "🧤", name: "Gloves", why: "Protect hands from injury & microbes", delay: 0 },
+                { icon: "🥽", name: "Goggles", why: "Protect eyes from splashes", delay: 0.5 },
+                { icon: "👒", name: "Hat", why: "Protect head from chemicals", delay: 1.0 }
+            ]},
+            { id: 13, question: "Explain three safe ways to store chemicals.", answer: "1. Check the safety data sheet for storage requirements<br>2. Keep the chemical in its original container<br>3. Properly label the chemical container with hazard warnings signs", category: "Safety", hintType: "sequence", hint: [
+                { icon: "📋", text: "Check the Safety Data Sheet", delay: 0 },
+                { icon: "🧴", text: "Keep in original container", delay: 0.6 },
+                { icon: "⚠️", text: "Label with hazard warning signs", delay: 1.2 }
+            ]}
         ];
         
         let memoryState = {
@@ -1502,18 +1757,12 @@
             const mastered = memoryState.mastered.length;
             const needPractice = memoryState.needPractice.length;
             const total = memoryPracticeQuestions.length;
-            const remaining = total - mastered;
-            
-            // Calculate daily goal
-            const daysUntilAssessment = 12; // March 25 - March 13
-            const dailyGoal = Math.ceil(remaining / daysUntilAssessment);
-            
             area.innerHTML = `
                 <div class="memory-intro">
                     <h2>📚 Memory Practice - PPP Oral Assessment</h2>
                     <p>Practice the 13 oral assessment questions with point-form answers.<br>
                     Mark each question as "Got It" or "Need Practice" to track your progress.</p>
-                    
+
                     <div class="memory-stats">
                         <div class="memory-stat-card">
                             <div class="memory-stat-number" style="color: #48bb78;">${mastered}</div>
@@ -1524,11 +1773,7 @@
                             <div class="memory-stat-label">Need Practice ⚠️</div>
                         </div>
                     </div>
-                    
-                    <div class="memory-daily-goal">
-                        📅 <strong>Daily Goal:</strong> Practice ${dailyGoal}-2 questions per day to master all ${remaining} remaining questions before March 25.
-                    </div>
-                    
+
                     <div style="margin-top: 20px;">
                         <button class="memory-start-btn" onclick="startMemoryPractice()">Start Practice</button>
                         ${needPractice > 0 ? '<button class="memory-start-btn secondary" onclick="startMemoryReview()">Review Need Practice</button>' : ''}
@@ -1580,11 +1825,16 @@
                 <div class="memory-card">
                     <span class="assessment-category-tag">${q.category}</span>
                     <div class="memory-question-text">${q.question}</div>
+                    <div class="memory-hint-container" id="memoryHintBox">
+                        <div class="memory-hint-label">💡 Visual Hint</div>
+                        ${renderHint(q)}
+                    </div>
                     <div class="memory-answer-box" id="memoryAnswerBox">
                         <div class="memory-answer-text">${q.answer}</div>
                     </div>
                 </div>
                 <div class="memory-buttons" id="memoryButtons">
+                    <button class="memory-btn show-hint" id="hintBtn" onclick="showMemoryHint()">Show Hint 💡</button>
                     <button class="memory-btn show-answer" onclick="showMemoryAnswer()">Show Answer 👁️</button>
                 </div>
                 <div class="memory-buttons" id="memoryAssessButtons" style="display: none;">
@@ -1594,6 +1844,70 @@
             `;
         }
         
+        function renderHint(q) {
+            const h = q.hint;
+            switch (q.hintType) {
+                case 'steps':
+                    return `<div class="hint-scene">${h.map((s, i) =>
+                        (i > 0 ? `<span class="hint-arrow" style="animation-delay:${s.delay - 0.15}s">➡️</span>` : '') +
+                        `<div class="hint-step" style="animation-delay:${s.delay}s">
+                            <span class="hint-icon">${s.icon}</span>
+                            <span class="hint-label">${s.label}</span>
+                        </div>`
+                    ).join('')}</div>`;
+
+                case 'sequence':
+                    return `<div class="hint-sequence">${h.map((s, i) =>
+                        `<div class="hint-seq-step" style="animation-delay:${s.delay}s">
+                            <span class="hint-seq-num">${i + 1}</span>
+                            <span class="hint-seq-icon">${s.icon}</span>
+                            <span class="hint-seq-text">${s.text}</span>
+                        </div>`
+                    ).join('')}</div>`;
+
+                case 'visual':
+                    return `<div class="hint-visual">
+                        <span class="hint-visual-icon">${h.icon}</span>
+                        <span class="hint-visual-text">${h.text}</span>
+                    </div>`;
+
+                case 'ratio':
+                    const scoops = [];
+                    for (let i = 0; i < h.item1.count; i++)
+                        scoops.push(`<div class="hint-scoop ${h.item1.css}" style="animation-delay:${i * 0.3}s">${h.item1.icon}</div>`);
+                    scoops.push(`<span class="hint-ratio-text" style="animation-delay:${h.item1.count * 0.3}s">:</span>`);
+                    for (let i = 0; i < h.item2.count; i++)
+                        scoops.push(`<div class="hint-scoop ${h.item2.css}" style="animation-delay:${(h.item1.count + 1 + i) * 0.3}s">${h.item2.icon}</div>`);
+                    return `<div class="hint-ratio">${scoops.join('')}
+                        <span class="hint-ratio-label" style="animation-delay:${(h.item1.count + h.item2.count + 1) * 0.3}s">${h.item1.count} parts ${h.item1.label} : ${h.item2.count} part ${h.item2.label}</span>
+                    </div>`;
+
+                case 'ppe':
+                    return `<div class="hint-ppe">${h.map(p =>
+                        `<div class="hint-ppe-item" style="animation-delay:${p.delay}s">
+                            <span class="hint-ppe-icon">${p.icon}</span>
+                            <span class="hint-ppe-name">${p.name}</span>
+                            <span class="hint-ppe-why">${p.why}</span>
+                        </div>`
+                    ).join('')}</div>`;
+
+                case 'growth':
+                    return `<div class="hint-plant-grow">${h.map(s =>
+                        `<div class="hint-plant-stage" style="animation-delay:${s.delay}s">
+                            <span class="hint-icon">${s.icon}</span>
+                            <span class="hint-label">${s.label}</span>
+                        </div>`
+                    ).join('')}</div>`;
+
+                default: return '';
+            }
+        }
+
+        function showMemoryHint() {
+            document.getElementById('memoryHintBox').classList.add('show');
+            document.getElementById('hintBtn').style.display = 'none';
+        }
+
         function showMemoryAnswer() {
             document.getElementById('memoryAnswerBox').classList.add('show');
             document.getElementById('memoryButtons').style.display = 'none';
