@@ -1825,7 +1825,7 @@
                 <div class="memory-card">
                     <span class="assessment-category-tag">${q.category}</span>
                     <div class="memory-question-text">${q.question}</div>
-                    <div class="memory-hint-container" id="memoryHintBox">
+                    <div class="memory-hint-container" id="memoryHintBox" style="display:none">
                         <div class="memory-hint-label">💡 Visual Hint</div>
                         ${renderHint(q)}
                     </div>
@@ -1834,7 +1834,7 @@
                     </div>
                 </div>
                 <div class="memory-buttons" id="memoryButtons">
-                    <button class="memory-btn show-hint" id="hintBtn" onclick="showMemoryHint()">Show Hint 💡</button>
+                    <button class="memory-btn show-hint" id="hintBtn" onclick="showMemoryHint()" style="display:none">Show Hint 💡</button>
                     <button class="memory-btn show-answer" onclick="showMemoryAnswer()">Show Answer 👁️</button>
                 </div>
                 <div class="memory-buttons" id="memoryAssessButtons" style="display: none;">
