@@ -831,6 +831,38 @@
             0% { opacity: 0; transform: scale(0.3) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
+        /* Video section styles */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        .video-card {
+            background: #f0fff4;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #c6f6d5;
+        }
+        .video-card video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+        .video-card-info {
+            padding: 15px;
+        }
+        .video-card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #276749;
+            margin-bottom: 5px;
+        }
+        .video-card-desc {
+            font-size: 0.95rem;
+            color: #4a5568;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -852,6 +884,7 @@
             <button class="category-btn" onclick="setCategory('safety', this)">⚠️ Safety</button>
             <button class="category-btn" onclick="setCategory('assessment', this)">📝 Assessment</button>
             <button class="category-btn" onclick="setCategory('memory', this)">📚 Memory Practice</button>
+            <button class="category-btn" onclick="setCategory('videos', this)">🎬 Videos</button>
         </div>
 
         <!-- Standard quiz area -->
@@ -892,6 +925,30 @@
         
         <!-- Memory Practice area -->
         <div class="quiz-area" id="memoryArea" style="display: none;"></div>
+
+        <!-- Videos area -->
+        <div class="quiz-area" id="videosArea" style="display: none;">
+            <div class="video-grid">
+                <div class="video-card">
+                    <video controls preload="metadata">
+                        <source src="videos/caleb-scion-grafting.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-card-info">
+                        <div class="video-card-title">Scion Grafting</div>
+                        <div class="video-card-desc">Learn what scion grafting is and how to perform it step by step. We join a scion (branch with buds) to a rootstock to make one strong plant.</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <video controls preload="metadata">
+                        <source src="videos/transplanting-seedlings.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-card-info">
+                        <div class="video-card-title">Transplanting Seedlings</div>
+                        <div class="video-card-desc">Learn how to transplant seedlings into bigger pots. Fill the pot with soil, make a hole, and gently place the seedling in.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1041,8 +1098,11 @@
             document.getElementById('matchArea').style.display = 'none';
             document.getElementById('assessmentArea').style.display = 'none';
             document.getElementById('memoryArea').style.display = 'none';
+            document.getElementById('videosArea').style.display = 'none';
 
-            if (category === 'assessment') {
+            if (category === 'videos') {
+                document.getElementById('videosArea').style.display = 'block';
+            } else if (category === 'assessment') {
                 document.getElementById('assessmentArea').style.display = 'block';
                 showAssessmentIntro();
             } else if (category === 'memory') {
