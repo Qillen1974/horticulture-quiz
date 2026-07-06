@@ -863,6 +863,101 @@
             color: #4a5568;
             line-height: 1.5;
         }
+        /* Module tabs */
+        .module-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .module-tab {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 3px solid #48bb78;
+            border-radius: 12px;
+            background: white;
+            color: #2f855a;
+            cursor: pointer;
+        }
+        .module-tab.active {
+            background: #48bb78;
+            color: white;
+        }
+        /* PPE drill */
+        .ppe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .ppe-item {
+            background: white;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        .ppe-item img {
+            width: 100%;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f7fafc;
+        }
+        .ppe-item.picked { border-color: #4299e1; background: #ebf8ff; }
+        .ppe-item.right { border-color: #48bb78; background: #f0fff4; }
+        .ppe-item.missing { border-color: #ed8936; background: #fffaf0; }
+        .ppe-item.wrongpick { border-color: #e53e3e; background: #fff5f5; }
+        /* Steps sequencing */
+        .steps-done-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 15px 0;
+            min-height: 30px;
+        }
+        .steps-done-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0fff4;
+            border: 2px solid #48bb78;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-weight: bold;
+            color: #22543d;
+            text-align: left;
+        }
+        .steps-done-item img { height: 55px; border-radius: 6px; }
+        .steps-pool {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .step-card {
+            background: white;
+            border: 3px solid #cbd5e0;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2d3748;
+            text-align: center;
+        }
+        .step-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f7fafc;
+        }
+        .step-card.shake { border-color: #e53e3e; background: #fff5f5; }
+        .step-card.used { visibility: hidden; }
     </style>
 </head>
 <body>
@@ -872,7 +967,12 @@
             <p>Learn about plants and gardening!</p>
         </div>
 
-        <div class="category-selector">
+        <div class="module-tabs">
+            <button class="module-tab" id="moduleTab1" onclick="setModule('module1')">🌿 Module 1: Propagation</button>
+            <button class="module-tab" id="moduleTabPruning" onclick="setModule('pruning')">✂️ Module 2: Pruning</button>
+        </div>
+
+        <div class="category-selector" id="catsModule1">
             <button class="category-btn active" onclick="setCategory('tools', this)">🔧 Tools</button>
             <button class="category-btn" onclick="setCategory('toolparts', this)">🔩 Tool Parts</button>
             <button class="category-btn" onclick="setCategory('toolquality', this)">✅ Tool Quality</button>
@@ -885,6 +985,15 @@
             <button class="category-btn" onclick="setCategory('assessment', this)">📝 Assessment</button>
             <button class="category-btn" onclick="setCategory('memory', this)">📚 Memory Practice</button>
             <button class="category-btn" onclick="setCategory('videos', this)">🎬 Videos</button>
+        </div>
+
+        <div class="category-selector" id="catsPruning" style="display: none;">
+            <button class="category-btn" onclick="setCategory('pruningtools', this)">🔧 Pruning Tools</button>
+            <button class="category-btn" onclick="setCategory('matchpruning', this)">🔗 Match Pruning</button>
+            <button class="category-btn" onclick="setCategory('pruningppe', this)">🦺 PPE Check</button>
+            <button class="category-btn" onclick="setCategory('pruningsteps', this)">✂️ Pruning Steps</button>
+            <button class="category-btn" onclick="setCategory('symptoms', this)">🩺 Plant Symptoms</button>
+            <button class="category-btn" onclick="setCategory('oralpractice', this)">🗣️ Oral Practice</button>
         </div>
 
         <!-- Standard quiz area -->
@@ -919,6 +1028,12 @@
             <button class="next-btn" id="matchNextBtn" style="display: none;">Next Round ➡️</button>
             <button class="next-btn" id="matchRestartBtn" style="display: none;">Play Again 🔄</button>
         </div>
+
+        <!-- PPE drill area -->
+        <div class="quiz-area" id="ppeArea" style="display: none;"></div>
+
+        <!-- Pruning steps sequencing area -->
+        <div class="quiz-area" id="stepsArea" style="display: none;"></div>
 
         <!-- Assessment area -->
         <div class="quiz-area" id="assessmentArea" style="display: none;"></div>
@@ -1016,6 +1131,16 @@
             { image: "images/media images/IMG_9961.jpeg", name: "Cocopeat", func: "Holds water" },
             { image: "images/media images/IMG_9962.jpeg", name: "Perlite", func: "Aeration and drainage" },
             { image: "images/media images/IMG_9963.jpeg", name: "Vermiculite", func: "Water and nutrient retention" }
+        ];
+
+        const pruningMatchData = [
+            { image: "images/pruning images/secateurs.png", name: "Secateurs", func: "Heading back — prune a potted shrub" },
+            { image: "images/pruning images/pruning-shears.png", name: "Pruning shears", func: "Topiary pruning — shape a hedge" },
+            { image: "images/pruning images/loppers.png", name: "Loppers", func: "Cut thicker branches with long handles" },
+            { image: "images/pruning images/pruning-saws.png", name: "Pruning saws", func: "Saw through big branches" },
+            { image: "images/pruning images/pole-pruners.png", name: "Pole pruners", func: "Reach and cut high branches" },
+            { image: "images/pruning images/hedge-trimmers.png", name: "Hedge trimmers", func: "Machine for trimming hedges" },
+            { image: "images/pruning images/chainsaws.png", name: "Chainsaws", func: "Machine for cutting large branches" }
         ];
 
         const questions = {
@@ -1116,6 +1241,66 @@
                 { image: "images/quiz images/IMG_9987.jpeg", question: "Where should you keep chemicals?", options: ["In their original container", "In any empty bottle", "In plastic bags", "In open bowls"], correct: 0, explanation: "Keep the chemical in its original container!" },
                 { image: "images/quiz images/IMG_9987.jpeg", question: "How should chemical containers be labeled?", options: ["With hazard warning signs", "With the date only", "With your name", "No label needed"], correct: 0, explanation: "Properly label the chemical container with hazard warning signs!" },
                 { image: "images/quiz images/IMG_9987.jpeg", question: "Explain three safe ways to store chemicals.", options: ["Check Safety Data Sheet, keep in original container, label with hazard signs", "Hide them, lock them, forget them", "Put in any bottle, store anywhere, no labels needed", "Mix together, store in fridge, label with tape"], correct: 0, explanation: "The 3 safe ways are: (1) Check the Safety Data Sheet, (2) Keep in original container, (3) Label with hazard warning signs!" }
+            ],
+            pruningtools: [
+                { image: "images/pruning images/secateurs.png", question: "What pruning tool is this?", options: ["Secateurs", "Loppers", "Pruning saws", "Hedge trimmers"], correct: 0, explanation: "Secateurs — used for heading back a potted shrub!" },
+                { image: "images/pruning images/pruning-shears.png", question: "What pruning tool is this?", options: ["Pruning shears", "Secateurs", "Chainsaws", "Pole pruners"], correct: 0, explanation: "Pruning shears — used for topiary pruning a hedge!" },
+                { image: "images/pruning images/loppers.png", question: "What pruning tool is this?", options: ["Loppers", "Pruning shears", "Secateurs", "Hedge trimmers"], correct: 0, explanation: "Loppers — long handles help cut thicker branches!" },
+                { image: "images/pruning images/pruning-saws.png", question: "What pruning tool is this?", options: ["Pruning saws", "Loppers", "Chainsaws", "Secateurs"], correct: 0, explanation: "Pruning saws — for sawing through big branches!" },
+                { image: "images/pruning images/pole-pruners.png", question: "What pruning equipment is this?", options: ["Pole pruners", "Hedge trimmers", "Chainsaws", "Loppers"], correct: 0, explanation: "Pole pruners — equipment for reaching high branches!" },
+                { image: "images/pruning images/hedge-trimmers.png", question: "What pruning equipment is this?", options: ["Hedge trimmers", "Pole pruners", "Chainsaws", "Pruning shears"], correct: 0, explanation: "Hedge trimmers — a machine for trimming hedges!" },
+                { image: "images/pruning images/chainsaws.png", question: "What pruning equipment is this?", options: ["Chainsaws", "Hedge trimmers", "Pole pruners", "Pruning saws"], correct: 0, explanation: "Chainsaws — a machine for cutting large branches!" },
+                { image: "images/pruning images/target-shrub.png", question: "Which tool do you use to prune this potted shrub (heading back)?", options: ["Secateurs", "Pruning shears", "Chainsaws", "Pole pruners"], correct: 0, explanation: "Use Secateurs for heading back a potted shrub!" },
+                { image: "images/pruning images/target-hedge.png", question: "Which tool do you use for topiary pruning this hedge?", options: ["Pruning shears", "Secateurs", "Loppers", "Pruning saws"], correct: 0, explanation: "Use Pruning shears for topiary pruning a hedge!" },
+                { image: "images/pruning images/tool-good.png", question: "Look at this tool. Is it ready to use?", options: ["Yes — it is clean and sharp", "No — it is damaged and rusty"], correct: 0, explanation: "This tool is in good condition — clean and sharp, ready to use!" },
+                { image: "images/pruning images/tool-damaged.png", question: "Look at this tool. Is it safe to use?", options: ["No — it is rusty and damaged", "Yes — it looks fine"], correct: 0, explanation: "This tool is rusty and damaged. Never use a damaged tool — tell your supervisor!" },
+                { emoji: "🔍", question: "What are the 3 checks before using a tool?", options: ["No damage, clean, sharp", "Colour, size, price", "Heavy, shiny, new", "Wet, dry, warm"], correct: 0, explanation: "Before use, check the tool: (1) no damage or defects, (2) clean, (3) sharp!" },
+                { emoji: "⚙️", question: "Which of these is pruning EQUIPMENT (a machine), not a hand tool?", options: ["Hedge trimmers", "Secateurs", "Loppers", "Pruning shears"], correct: 0, explanation: "Hedge trimmers, pole pruners, and chainsaws are equipment. Secateurs, pruning shears, loppers, and pruning saws are hand tools!" },
+                { emoji: "🔧", question: "Which of these is a pruning hand TOOL?", options: ["Secateurs", "Chainsaws", "Pole pruners", "Hedge trimmers"], correct: 0, explanation: "Secateurs, pruning shears, loppers, and pruning saws are hand tools!" }
+            ],
+            symptoms: [
+                { image: "images/pruning images/sym-discolouration.png", question: "What leaf symptom is this?", options: ["Discolouration", "Spots", "Wilting", "Cankers"], correct: 0, explanation: "Discolouration — the leaf is turning yellow instead of healthy green!" },
+                { image: "images/pruning images/sym-spots.png", question: "What leaf symptom is this?", options: ["Spots", "Discolouration", "Wilting", "Cracks"], correct: 0, explanation: "Spots on the leaf can mean disease!" },
+                { image: "images/pruning images/sym-wilting.png", question: "What leaf symptom is this?", options: ["Wilting", "Spots", "Galls", "Discolouration"], correct: 0, explanation: "Wilting — the plant is drooping and floppy!" },
+                { image: "images/pruning images/sym-distorted.png", question: "What leaf symptom is this?", options: ["Distorted shape — curled or twisted", "Wilting", "Spots", "Cankers"], correct: 0, explanation: "Distorted shape — the leaves are curled or twisted!" },
+                { image: "images/pruning images/sym-cankers.png", question: "What stem symptom is this?", options: ["Cankers", "Cracks and splits", "Galls", "Spots"], correct: 0, explanation: "Cankers — dead, sunken areas on the stem!" },
+                { image: "images/pruning images/sym-cracks.png", question: "What stem symptom is this?", options: ["Cracks and splits", "Cankers", "Galls", "Wilting"], correct: 0, explanation: "Cracks and splits in the stem!" },
+                { image: "images/pruning images/sym-galls.png", question: "What stem symptom is this?", options: ["Abnormal growths — swellings or galls", "Cankers", "Cracks and splits", "Spots"], correct: 0, explanation: "Abnormal growths — swellings or galls on the stem!" },
+                { emoji: "🍃", question: "Which of these is a LEAF symptom?", options: ["Wilting", "Cankers", "Cracks and splits", "Galls"], correct: 0, explanation: "Leaf symptoms: discolouration, spots, wilting, distorted shape. Stem symptoms: cankers, cracks and splits, galls!" },
+                { emoji: "🌳", question: "Which of these is a STEM symptom?", options: ["Cankers", "Wilting", "Spots", "Discolouration"], correct: 0, explanation: "Stem symptoms: cankers, cracks and splits, abnormal growths (galls)!" },
+                { emoji: "✂️", question: "You see a dead, diseased branch. What do you do when pruning?", options: ["Cut it off FIRST", "Leave it alone", "Water it more", "Paint it green"], correct: 0, explanation: "Always remove dead, diseased, or damaged branches FIRST when pruning!" },
+                { emoji: "🩺", question: "What do symptoms like spots and cankers tell us?", options: ["The plant may have defects, disease, or decay", "The plant is very healthy", "The plant needs more sun", "Nothing important"], correct: 0, explanation: "Leaf and stem symptoms show defects, diseases, or decay in plants!" }
+            ],
+            oralpractice: [
+                { emoji: "🚧", question: "Where should you place the warning sign?", options: ["Where most people can see it", "Hidden behind a tree", "Inside your bag", "Anywhere is fine"], correct: 0, explanation: "WSH guideline: place the warning sign where most people can see it!" },
+                { emoji: "🚧", question: "When can you remove the barriers and signs?", options: ["Only when pruning is done and the area is safe", "As soon as you start", "During lunch break", "Whenever you like"], correct: 0, explanation: "Keep barriers and signs up until pruning is done and the area is safe for the public!" },
+                { emoji: "🗣️", question: "What do you say to the supervisor when the site is set up?", options: ["\"Hi Sir/Madam, the site is ready for pruning.\"", "\"I'm going home now.\"", "Nothing — just start cutting", "\"Where is my lunch?\""], correct: 0, explanation: "Tell your supervisor: \"Hi Sir/Madam, the site is ready for pruning.\"" },
+                { emoji: "🗣️", question: "What do you say when you finish all your tasks?", options: ["\"Hi Sir/Ma'am, I am done.\"", "Nothing — just leave", "\"See you tomorrow!\"", "\"Can I have a break?\""], correct: 0, explanation: "Report back to the assessor: \"Hi Sir/Ma'am, I am done.\"" },
+                { emoji: "🔢", question: "How many PPE items should be worn when pruning plants?", options: ["7", "3", "5", "10"], correct: 0, explanation: "Seven PPE: hat/cap, safety glasses, long-sleeved shirt, high visibility vest, gloves, long pants, covered/safety shoes!" },
+                { emoji: "🥽", question: "Name one pruning tool and one pruning equipment.", options: ["Secateurs (tool) and chainsaws (equipment)", "Gloves (tool) and boots (equipment)", "Rake (tool) and wheelbarrow (equipment)", "Soil (tool) and water (equipment)"], correct: 0, explanation: "Tools: secateurs, pruning shears, loppers, pruning saws. Equipment: pole pruners, hedge trimmers, chainsaws!" },
+                { image: "images/pruning images/method-topiary.png", question: "What pruning method is shown?", options: ["Topiary pruning", "Heading back", "Thinning", "Pollarding"], correct: 0, explanation: "Topiary pruning — shaping a hedge or bush with pruning shears!" },
+                { image: "images/pruning images/method-heading-back.png", question: "What pruning method is shown?", options: ["Heading back", "Topiary pruning", "Crown reduction", "Deadheading"], correct: 0, explanation: "Heading back — cutting a branch back with secateurs!" },
+                { image: "images/pruning images/method-deadheading.png", question: "What pruning method is shown?", options: ["Deadheading", "Thinning", "Pollarding", "Heading back"], correct: 0, explanation: "Deadheading — removing dead or faded flowers!" },
+                { image: "images/pruning images/method-thinning.png", question: "What pruning method is shown?", options: ["Thinning", "Deadheading", "Topiary pruning", "Crown reduction"], correct: 0, explanation: "Thinning — removing whole branches to open up the plant!" },
+                { image: "images/pruning images/method-crown-reduction.png", question: "What pruning method is shown?", options: ["Crown reduction", "Thinning", "Heading back", "Deadheading"], correct: 0, explanation: "Crown reduction — making the whole crown of the tree smaller!" },
+                { image: "images/pruning images/method-pollard-after.png", question: "The tree branches were all cut back to the trunk. What method is this?", options: ["Pollarding", "Deadheading", "Topiary pruning", "Thinning"], correct: 0, explanation: "Pollarding — cutting branches back to the trunk!" },
+                { emoji: "📋", question: "Name three common pruning methods.", options: ["Topiary, heading back, thinning", "Digging, watering, raking", "Washing, drying, wiping", "Running, jumping, cutting"], correct: 0, explanation: "Pruning methods: topiary pruning, heading back, deadheading, thinning, crown reduction, pollarding!" },
+                { emoji: "👀", question: "Name one visual aspect to observe when inspecting a plant.", options: ["General shape of the plant", "The price of the plant", "The name of the shop", "The colour of the pot"], correct: 0, explanation: "Visual aspects: general shape, size (height and width), and growth pattern including direction!" },
+                { emoji: "📏", question: "What size aspects do you check when inspecting a plant?", options: ["Height and width", "Weight and smell", "Age and price", "Taste and sound"], correct: 0, explanation: "Check the size of the plant — its height and width!" },
+                { emoji: "🌿", question: "Name two plant structures to consider when inspecting for pruning.", options: ["Leaves and flowers", "Rocks and soil", "Pots and labels", "Fences and paths"], correct: 0, explanation: "Plant structures: leaves (size, shape, texture, colour), flowers, buds and nodes, root system, stem and branch thickness!" },
+                { emoji: "🌱", question: "Where do you cut when pruning with secateurs?", options: ["At a slight angle above a bud or node", "In the middle of a leaf", "At the roots", "Anywhere you like"], correct: 0, explanation: "Cut at a slight angle above a bud or node!" },
+                { emoji: "⚠️", question: "Who is allowed to do pruning work?", options: ["Only people who are trained and skilled", "Anyone walking by", "Only tall people", "Nobody"], correct: 0, explanation: "WSH guideline: only prune if you are trained and skilled!" },
+                { emoji: "🌧️", question: "Can you prune in bad weather?", options: ["No — don't prune in bad weather", "Yes, rain is fine", "Yes, but only in storms", "Only if you hurry"], correct: 0, explanation: "WSH guideline: don't prune in bad weather!" },
+                { emoji: "🪜", question: "How many points of contact must you keep on a ladder?", options: ["3", "1", "2", "4"], correct: 0, explanation: "Use ladders safely by keeping three (3) points of contact at all times!" },
+                { emoji: "💧", question: "How do you take care of yourself while pruning?", options: ["Drink water, take breaks in shade, keep good posture", "Skip water and work non-stop", "Work in the hottest sun", "Slouch to save energy"], correct: 0, explanation: "Drink plenty of water, take regular breaks in shaded areas, and keep good posture to avoid strain!" },
+                { emoji: "❓", question: "What do you do if you are unsure which tool to use?", options: ["Ask your supervisor", "Guess and hope", "Use them all", "Go home"], correct: 0, explanation: "Always consult your supervisor when unsure!" },
+                { emoji: "🧹", question: "After pruning, what do you use to collect branches and debris?", options: ["Rake, garden broom, or by hand", "Chainsaw", "Watering can", "Ladder"], correct: 0, explanation: "Collect all pruned branches, leaves, and debris using a rake, garden broom, or by hand!" },
+                { emoji: "🗑️", question: "What comes FIRST: tying the bag or putting waste in the bag?", options: ["Put waste in the bag FIRST, THEN tie it", "Tie the bag first", "Throw the bag away empty", "It doesn't matter"], correct: 0, explanation: "FIRST put all plant waste in a garden bag, THEN tie it with a double knot!" },
+                { emoji: "🪢", question: "How do you tie the garden waste bag?", options: ["With a double knot", "With a bow", "You don't tie it", "With tape"], correct: 0, explanation: "Tie the garden bag with a double knot!" },
+                { emoji: "🧤", question: "What PPE do you wear when cleaning and disinfecting tools?", options: ["Rubber gloves", "Sunglasses", "A raincoat", "Slippers"], correct: 0, explanation: "Wear the right PPE, like rubber gloves, when maintaining tools!" },
+                { emoji: "🧽", question: "How do you CLEAN a pruning tool?", options: ["Wash off sap and dirt, then dry with a cloth", "Just blow on it", "Leave it in the rain", "Bury it in soil"], correct: 0, explanation: "Clean = wash off residue, sap, and debris, THEN dry with a cloth!" },
+                { emoji: "🧴", question: "How do you DISINFECT a pruning tool?", options: ["Spray sanitizer on a cloth, wipe the blades, air-dry", "Dip it in mud", "Wipe it on your shirt", "Leave it in the sun only"], correct: 0, explanation: "Disinfect = spray sanitizer onto a cloth, wipe the blades thoroughly, and let them air-dry!" },
+                { emoji: "🔧", question: "Name two WSH guidelines when maintaining tools and equipment.", options: ["Wear rubber gloves and be careful with sharp blades", "Work fast and skip checks", "Use broken tools and no gloves", "Never clean the tools"], correct: 0, explanation: "Wear the right PPE (rubber gloves), be careful with sharp blades, follow the manufacturer's instructions, and check with your supervisor if unsure!" }
             ]
         };
 
@@ -1131,6 +1316,8 @@
             document.getElementById('assessmentArea').style.display = 'none';
             document.getElementById('memoryArea').style.display = 'none';
             document.getElementById('videosArea').style.display = 'none';
+            document.getElementById('ppeArea').style.display = 'none';
+            document.getElementById('stepsArea').style.display = 'none';
 
             if (category === 'videos') {
                 document.getElementById('videosArea').style.display = 'block';
@@ -1140,14 +1327,31 @@
             } else if (category === 'memory') {
                 document.getElementById('memoryArea').style.display = 'block';
                 showMemoryIntro();
-            } else if (category === 'match' || category === 'matchmedia') {
+            } else if (category === 'match' || category === 'matchmedia' || category === 'matchpruning') {
                 document.getElementById('matchArea').style.display = 'block';
-                activeMatchType = category === 'match' ? 'tools' : 'media';
+                activeMatchType = category === 'match' ? 'tools' : (category === 'matchmedia' ? 'media' : 'pruning');
                 startMatch();
+            } else if (category === 'pruningppe') {
+                document.getElementById('ppeArea').style.display = 'block';
+                startPpeDrill();
+            } else if (category === 'pruningsteps') {
+                document.getElementById('stepsArea').style.display = 'block';
+                startSteps();
             } else {
                 document.getElementById('quizArea').style.display = 'block';
                 newQuestion();
             }
+        }
+
+        function setModule(mod) {
+            document.getElementById('moduleTab1').classList.toggle('active', mod === 'module1');
+            document.getElementById('moduleTabPruning').classList.toggle('active', mod === 'pruning');
+            document.getElementById('catsModule1').style.display = mod === 'module1' ? '' : 'none';
+            document.getElementById('catsPruning').style.display = mod === 'pruning' ? '' : 'none';
+            try { localStorage.setItem('hortModule', mod); } catch (e) {}
+            const selector = mod === 'module1' ? '#catsModule1' : '#catsPruning';
+            const firstBtn = document.querySelector(selector + ' .category-btn');
+            setCategory(mod === 'module1' ? 'tools' : 'pruningtools', firstBtn);
         }
 
         function newQuestion() {
@@ -1252,7 +1456,7 @@
         // ========== Match (Tools & Media) ==========
 
         function getActiveMatchData() {
-            return activeMatchType === 'tools' ? toolData : mediaData;
+            return activeMatchType === 'tools' ? toolData : (activeMatchType === 'media' ? mediaData : pruningMatchData);
         }
 
         function startMatch() {
@@ -1277,7 +1481,7 @@
             const container = document.getElementById('matchContainer');
             container.innerHTML = '';
 
-            const label = activeMatchType === 'tools' ? 'tool' : 'media';
+            const label = activeMatchType === 'media' ? 'media' : 'tool';
             const isRound1 = matchRound === 1;
             document.getElementById('matchRoundInfo').textContent = isRound1
                 ? `Round 1: Match each ${label} to its name`
@@ -1289,7 +1493,7 @@
 
             const leftCol = document.createElement('div');
             leftCol.className = 'match-column';
-            leftCol.innerHTML = `<h3>${activeMatchType === 'tools' ? 'Tools' : 'Media'}</h3>`;
+            leftCol.innerHTML = `<h3>${activeMatchType === 'media' ? 'Media' : 'Tools'}</h3>`;
 
             const rightCol = document.createElement('div');
             rightCol.className = 'match-column';
@@ -1383,6 +1587,203 @@
                     matchSelectedLeft = null;
                     matchSelectedRight = null;
                 }
+            }
+        }
+
+        // ========== PPE Drill (Pruning module) ==========
+
+        const PPE_ITEMS = [
+            { name: "Hat / cap", image: "images/pruning images/ppe-hat.png", ppe: true },
+            { name: "Safety glasses", image: "images/pruning images/ppe-glasses.png", ppe: true },
+            { name: "Long-sleeved shirt", image: "images/pruning images/ppe-shirt.png", ppe: true },
+            { name: "High visibility vest", image: "images/pruning images/ppe-vest.png", ppe: true },
+            { name: "Gloves", image: "images/pruning images/ppe-gloves.png", ppe: true },
+            { name: "Long pants", image: "images/pruning images/ppe-pants.png", ppe: true },
+            { name: "Covered / safety shoes", image: "images/pruning images/ppe-shoes.png", ppe: true },
+            { name: "Watering can", image: "images/tools images/IMG_9973.jpeg", ppe: false },
+            { name: "Hand trowel", image: "images/tools images/IMG_9968.jpeg", ppe: false },
+            { name: "Rake", image: "images/tools images/IMG_9972.jpeg", ppe: false },
+            { name: "Wheelbarrow", image: "images/tools images/IMG_9974.jpeg", ppe: false }
+        ];
+
+        let ppePicked = new Set();
+
+        function startPpeDrill() {
+            ppePicked = new Set();
+            const area = document.getElementById('ppeArea');
+            const order = shuffleArray([...Array(PPE_ITEMS.length).keys()]);
+            area.innerHTML = `
+                <div class="question-card">
+                    <div class="question-emoji">🦺</div>
+                    <div class="question-text">Tap ALL seven (7) PPE you must wear for pruning</div>
+                    <div class="question-hint">Careful — some of these are NOT PPE! Picked: <strong id="ppeCount">0</strong>/7</div>
+                </div>
+                <div class="ppe-grid" id="ppeGrid"></div>
+                <div class="feedback" id="ppeFeedback"></div>
+                <div class="explanation" id="ppeExplanation"></div>
+                <button class="next-btn" id="ppeCheckBtn" onclick="checkPpe()">Check My PPE ✅</button>
+                <button class="next-btn" id="ppeAgainBtn" onclick="startPpeDrill()" style="display:none">Try Again 🔄</button>
+            `;
+            const grid = document.getElementById('ppeGrid');
+            order.forEach(i => {
+                const it = PPE_ITEMS[i];
+                const div = document.createElement('div');
+                div.className = 'ppe-item';
+                div.dataset.index = i;
+                div.innerHTML = `<img src="${it.image}" alt="${it.name}"><br>${it.name}`;
+                div.onclick = () => togglePpe(div, i);
+                grid.appendChild(div);
+            });
+        }
+
+        function togglePpe(div, i) {
+            if (document.getElementById('ppeAgainBtn').style.display !== 'none') return;
+            if (ppePicked.has(i)) {
+                ppePicked.delete(i);
+                div.classList.remove('picked');
+            } else {
+                ppePicked.add(i);
+                div.classList.add('picked');
+                playSound('question');
+            }
+            document.getElementById('ppeCount').textContent = ppePicked.size;
+        }
+
+        function checkPpe() {
+            const fb = document.getElementById('ppeFeedback');
+            const ex = document.getElementById('ppeExplanation');
+            let missing = [], wrong = [];
+            document.querySelectorAll('.ppe-item').forEach(div => {
+                const i = parseInt(div.dataset.index);
+                const it = PPE_ITEMS[i];
+                div.classList.remove('picked');
+                if (it.ppe && ppePicked.has(i)) div.classList.add('right');
+                if (it.ppe && !ppePicked.has(i)) { div.classList.add('missing'); missing.push(it.name); }
+                if (!it.ppe && ppePicked.has(i)) { div.classList.add('wrongpick'); wrong.push(it.name); }
+            });
+            if (missing.length === 0 && wrong.length === 0) {
+                fb.textContent = '🎉 Perfect! All 7 PPE!';
+                fb.className = 'feedback correct';
+                ex.innerHTML = 'Hat/cap, safety glasses, long-sleeved shirt, high visibility vest, gloves, long pants, covered/safety shoes. <br>🥽 Remember: put on safety <strong>goggles</strong> before you start cutting!';
+                ex.className = 'explanation show';
+                playSound('correct');
+            } else {
+                fb.textContent = '❌ Not quite!';
+                fb.className = 'feedback incorrect';
+                let msg = '';
+                if (missing.length) msg += `You forgot (orange): <strong>${missing.join(', ')}</strong>.<br>`;
+                if (wrong.length) msg += `Not PPE (red): <strong>${wrong.join(', ')}</strong>.`;
+                ex.innerHTML = msg;
+                ex.className = 'explanation show';
+                playSound('incorrect');
+            }
+            fb.style.display = 'block';
+            document.getElementById('ppeCheckBtn').style.display = 'none';
+            document.getElementById('ppeAgainBtn').style.display = 'block';
+        }
+
+        // ========== Pruning Steps sequencing (Pruning module) ==========
+
+        const STEP_SEQUENCES = [
+            {
+                title: "Task 1: Set up the work site 🚧",
+                steps: [
+                    { text: "Walk around and check for hazards (insects, obstacles, uneven ground)", image: "images/pruning images/step-a-inspect.png" },
+                    { text: "Set up safety cones to mark the work area", image: "images/pruning images/step-b-cones.png" },
+                    { text: "Add safety poles on the cones to create a barrier", image: "images/pruning images/step-c-poles.png" },
+                    { text: "Put up a safety signage", image: "images/pruning images/step-d-signage.png" },
+                    { text: "Put up a blinker light to make the area easier to see", image: "images/pruning images/step-e-blinker.png" },
+                    { text: "Tell your supervisor: \"Hi Sir/Madam, the site is ready for pruning.\"", image: "images/pruning images/step-f-supervisor.png" }
+                ]
+            },
+            {
+                title: "Task 4: Pruning with secateurs ✂️",
+                steps: [
+                    { text: "Cut off dead, diseased, or damaged branches FIRST" },
+                    { text: "Cut back branches that are too long or growing the wrong way" },
+                    { text: "Cut at a slight angle above a bud or node" }
+                ]
+            },
+            {
+                title: "Task 5: Housekeeping after pruning 🧹",
+                steps: [
+                    { text: "Collect branches, leaves, and debris with a rake, garden broom, or by hand" },
+                    { text: "Put all plant waste in a garden bag" },
+                    { text: "Tie the bag with a double knot" },
+                    { text: "Remove the barriers and signs (reinstate the area)" }
+                ]
+            },
+            {
+                title: "Task 6: Clean and disinfect tools 🧼",
+                steps: [
+                    { text: "Wear rubber gloves" },
+                    { text: "Wash off sap, residue, and dirt" },
+                    { text: "Dry the tool with a cloth" },
+                    { text: "Spray sanitizer onto a cloth and wipe the blades" },
+                    { text: "Let the blades air-dry" }
+                ]
+            }
+        ];
+
+        let stepsSeqIndex = 0;
+        let stepsNext = 0;
+        let stepsMistakes = 0;
+
+        function startSteps(seqIndex) {
+            stepsSeqIndex = seqIndex === undefined ? Math.floor(Math.random() * STEP_SEQUENCES.length) : seqIndex;
+            stepsNext = 0;
+            stepsMistakes = 0;
+            const seq = STEP_SEQUENCES[stepsSeqIndex];
+            const area = document.getElementById('stepsArea');
+            area.innerHTML = `
+                <div class="question-card">
+                    <div class="question-text">${seq.title}</div>
+                    <div class="question-hint">Tap the steps in the correct order!</div>
+                </div>
+                <div class="steps-done-list" id="stepsDone"></div>
+                <div class="steps-pool" id="stepsPool"></div>
+                <div class="feedback" id="stepsFeedback"></div>
+                <button class="next-btn" id="stepsNextBtn" onclick="startSteps()" style="display:none">Next Sequence ➡️</button>
+            `;
+            const pool = document.getElementById('stepsPool');
+            const order = shuffleArray([...Array(seq.steps.length).keys()]);
+            // never start with the already-solved look: reshuffle if identity order
+            if (order.every((v, i) => v === i)) order.reverse();
+            order.forEach(i => {
+                const st = seq.steps[i];
+                const card = document.createElement('div');
+                card.className = 'step-card';
+                card.dataset.index = i;
+                card.innerHTML = (st.image ? `<img src="${st.image}" alt="step"><br>` : '') + st.text;
+                card.onclick = () => pickStep(card, i);
+                pool.appendChild(card);
+            });
+        }
+
+        function pickStep(card, i) {
+            if (card.classList.contains('used')) return;
+            const seq = STEP_SEQUENCES[stepsSeqIndex];
+            if (i === stepsNext) {
+                card.classList.add('used');
+                const st = seq.steps[i];
+                const done = document.createElement('div');
+                done.className = 'steps-done-item';
+                done.innerHTML = `<span>${i + 1}️⃣</span>` + (st.image ? `<img src="${st.image}" alt="step">` : '') + `<span>${st.text}</span>`;
+                document.getElementById('stepsDone').appendChild(done);
+                stepsNext++;
+                playSound('correct');
+                if (stepsNext === seq.steps.length) {
+                    const fb = document.getElementById('stepsFeedback');
+                    fb.textContent = stepsMistakes === 0 ? '🎉 Perfect order!' : `✅ Done! (${stepsMistakes} wrong tap${stepsMistakes > 1 ? 's' : ''} — try again for a perfect run)`;
+                    fb.className = 'feedback correct';
+                    fb.style.display = 'block';
+                    document.getElementById('stepsNextBtn').style.display = 'block';
+                }
+            } else {
+                stepsMistakes++;
+                playSound('incorrect');
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 500);
             }
         }
 
@@ -2092,7 +2493,9 @@
             }
         }
 
-        newQuestion();
+        let savedModule = 'pruning';
+        try { savedModule = localStorage.getItem('hortModule') || 'pruning'; } catch (e) {}
+        setModule(savedModule === 'module1' ? 'module1' : 'pruning');
     </script>
 </body>
 </html>
